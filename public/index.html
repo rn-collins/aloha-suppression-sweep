@@ -479,13 +479,13 @@
       <div class="footer-brand">Aloha AI Consulting <span>·</span> Platform Suppression Register</div>
       <div style="margin-top:4px">Built by RN Collins &middot; Honolulu, HI</div>
     </div>
-    <a href="mailto:collins.ra@northeastern.edu?subject=Platform%20Suppression%20Register&body=Hi%20RN%2C%0A%0AI%20came%20across%20the%20Platform%20Suppression%20Register%20and%20wanted%20to%20reach%20out." class="contact-btn" target="_blank" rel="noopener">
+    <button id="contact-arch-btn" onclick="handleContactArch()" class="contact-btn" style="cursor:pointer;background:none;border:none;padding:0;display:inline-flex;align-items:center;gap:6px;font:inherit;color:inherit;">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
         <polyline points="22,6 12,13 2,6"/>
       </svg>
       Contact the Architect
-    </a>
+    </button>
   </div>
 </footer>
 
@@ -665,6 +665,25 @@ async function submitLead() {
   }
 }
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/insights/script.js">
+function handleContactArch() {
+  const btn = document.getElementById('contact-arch-btn');
+  const origText = btn.innerHTML;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText('collins.ra@northeastern.edu').catch(()=>{});
+  }
+  window.open('mailto:collins.ra@northeastern.edu?subject=Platform%20Suppression%20Register&body=Hi%20RN%2C%0A%0AI%20came%20across%20the%20Platform%20Suppression%20Register%20and%20wanted%20to%20reach%20out.');
+  btn.innerHTML = '✓ Copied: collins.ra@northeastern.edu';
+  btn.style.fontFamily = 'monospace';
+  btn.style.fontSize = '11px';
+  btn.style.whiteSpace = 'nowrap';
+  setTimeout(() => {
+    btn.innerHTML = origText;
+    btn.style.fontFamily = '';
+    btn.style.fontSize = '';
+    btn.style.whiteSpace = '';
+  }, 2500);
+}
+</script>
 </body>
 </html>
