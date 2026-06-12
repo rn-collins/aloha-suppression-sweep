@@ -286,6 +286,7 @@
     transition: all 0.15s;
   }
   .contact-btn:hover { background: var(--green); color: #fff; }
+  .contact-btn:hover #contact-arch-label { color: #fff; }
 
   /* LEAD MODAL */
   .modal-overlay {
@@ -479,12 +480,12 @@
       <div class="footer-brand">Aloha AI Consulting <span>·</span> Platform Suppression Register</div>
       <div style="margin-top:4px">Built by RN Collins &middot; Honolulu, HI</div>
     </div>
-    <button id="contact-arch-btn" onclick="handleContactArch()" class="contact-btn" style="cursor:pointer;background:none;border:none;padding:0;display:inline-flex;align-items:center;gap:6px;font:inherit;color:inherit;">
+    <button class="contact-btn" id="contact-arch-btn" onclick="handleContactArch()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
         <polyline points="22,6 12,13 2,6"/>
       </svg>
-      Contact the Architect
+      <span id="contact-arch-label">Contact the Architect</span>
     </button>
   </div>
 </footer>
@@ -623,6 +624,37 @@ function closeModal() {
 }
 function closeModalOnOverlay(e) { if (e.target === e.currentTarget) closeModal(); }
 
+function handleContactArch() {
+  const email = 'collins.ra@northeastern.edu';
+  const btn = document.getElementById('contact-arch-btn');
+  const label = document.getElementById('contact-arch-label');
+  // Copy to clipboard
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).catch(() => {});
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = email;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  // Open mail client
+  window.location.href = 'mailto:' + email + '?subject=Platform%20Suppression%20Register&body=Hi%20RN%2C%0A%0AI%20came%20across%20the%20Platform%20Suppression%20Register%20and%20wanted%20to%20reach%20out.';
+  // Show confirmation
+  const original = label.textContent;
+  label.textContent = '✓ Copied: ' + email;
+  btn.style.borderColor = '#5ecfba';
+  btn.style.color = '#5ecfba';
+  setTimeout(() => {
+    label.textContent = original;
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }, 2500);
+}
+
 function toggleOther(val) {
   const f = document.getElementById('other-field');
   f.style.display = val === 'Other' ? 'block' : 'none';
@@ -665,25 +697,6 @@ async function submitLead() {
   }
 }
 </script>
-<script defer src="/_vercel/insights/script.js">
-function handleContactArch() {
-  const btn = document.getElementById('contact-arch-btn');
-  const origText = btn.innerHTML;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText('collins.ra@northeastern.edu').catch(()=>{});
-  }
-  window.open('mailto:collins.ra@northeastern.edu?subject=Platform%20Suppression%20Register&body=Hi%20RN%2C%0A%0AI%20came%20across%20the%20Platform%20Suppression%20Register%20and%20wanted%20to%20reach%20out.');
-  btn.innerHTML = '✓ Copied: collins.ra@northeastern.edu';
-  btn.style.fontFamily = 'monospace';
-  btn.style.fontSize = '11px';
-  btn.style.whiteSpace = 'nowrap';
-  setTimeout(() => {
-    btn.innerHTML = origText;
-    btn.style.fontFamily = '';
-    btn.style.fontSize = '';
-    btn.style.whiteSpace = '';
-  }, 2500);
-}
-</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
