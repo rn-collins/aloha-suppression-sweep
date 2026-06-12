@@ -1,1 +1,1 @@
-{"outputDirectory":"public","crons":[{"path":"/api/sweep-reprouncensored","schedule":"0 9 * * 1"},{"path":"/api/sweep-voidly","schedule":"0 6 * * *"}]}
+{"outputDirectory":"public","routes":[{"src":"/","dest":"/index.html"}],"crons":[{"path":"/api/sweep-reprouncensored","schedule":"0 9 * * 1"},{"path":"/api/sweep-voidly","schedule":"0 6 * * *"}]}
