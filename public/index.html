@@ -4,699 +4,253 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Platform Suppression Register — Aloha AI Consulting</title>
+<meta name="description" content="45+ documented cases of platform suppression affecting health, cannabis, psychedelics, and harm reduction organizations — 2018 to 2026. Built by Aloha AI Consulting.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aloha-suppression-sweep.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Platform Suppression Register — Aloha AI Consulting">
+<meta property="og:description" content="45+ documented cases of platform suppression affecting health, cannabis, psychedelics, and harm reduction organizations — 2018 to 2026.">
+<meta property="og:url" content="https://aloha-suppression-sweep.vercel.app/">
+<meta property="og:site_name" content="Aloha AI Consulting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Platform Suppression Register — Aloha AI Consulting">
+<meta name="twitter:description" content="45+ documented cases of platform suppression affecting health, cannabis, psychedelics, and harm reduction organizations — 2018 to 2026.">
 <style>
   :root {
-    --green: #1B7A68;
-    --green-light: #e8f4f1;
+    --brand: #1B7A68;
     --bg: #F6F3EC;
     --text: #1C1B1F;
-    --muted: #666;
-    --border: #ddd;
     --hot: #C24A2E;
-    --warm: #D4870A;
-    --coal: #1B7A68;
-    --font-body: 'Manrope', system-ui, sans-serif;
-    --font-display: Georgia, serif;
+    --warm: #B8842A;
+    --muted: rgba(28,27,31,0.45);
+    --border: rgba(28,27,31,0.12);
+    --card: #fff;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Manrope', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.6;
-  }
+  header { padding: 48px 40px 32px; border-bottom: 1px solid var(--border); }
+  .header-top { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .brand { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); }
+  h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 4vw, 42px); font-weight: 500; line-height: 1.15; }
+  .header-sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .count-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; background: var(--brand); color: #fff; padding: 3px 10px; border-radius: 20px; margin-left: 12px; vertical-align: middle; }
 
-  /* HEADER */
-  .header {
-    background: var(--text);
-    color: #fff;
-    padding: 48px 40px 40px;
-  }
-  .header-inner { max-width: 1100px; margin: 0 auto; }
-  .header-label {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--coal);
-    background: #fff;
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    font-weight: 700;
-  }
-  .header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 400;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    color: #fff;
-  }
-  .header-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.15);
-  }
-  .header-stat { text-align: left; }
-  .header-stat .num {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--green);
-    display: block;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .header-stat .label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .header-desc {
-    font-size: 15px;
-    color: rgba(255,255,255,0.75);
-    max-width: 680px;
-    line-height: 1.7;
-  }
-  .sweep-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(27,122,104,0.2);
-    border: 1px solid rgba(27,122,104,0.4);
-    color: #5ecfba;
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 20px;
-    margin-top: 16px;
-    font-weight: 600;
-  }
-  .sweep-dot {
-    width: 7px; height: 7px;
-    background: #5ecfba;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+  .controls { padding: 20px 40px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; }
+  .filter-btn { font-family: 'Syne', system-ui, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; padding: 7px 16px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text); cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .filter-btn.hot.active { background: var(--hot); border-color: var(--hot); }
+  .filter-btn.warm.active { background: var(--warm); border-color: var(--warm); }
+  .filter-btn.coalition.active { background: var(--brand); border-color: var(--brand); }
+  .search-box { margin-left: auto; font-family: 'Manrope', system-ui, sans-serif; font-size: 13px; padding: 7px 14px; border: 1px solid var(--border); border-radius: 20px; background: transparent; color: var(--text); width: 220px; outline: none; }
+  .search-box:focus { border-color: var(--brand); }
 
-  /* CONTROLS */
-  .controls {
-    background: #fff;
-    border-bottom: 1px solid var(--border);
-    padding: 16px 40px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .controls-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .search-wrap { position: relative; flex: 1; min-width: 200px; }
-  .search-wrap svg {
-    position: absolute; left: 12px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-  }
-  #search {
-    width: 100%;
-    padding: 9px 12px 9px 36px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    background: var(--bg);
-    outline: none;
-  }
-  #search:focus { border-color: var(--green); }
-  select {
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    background: var(--bg);
-    cursor: pointer;
-    outline: none;
-    min-width: 160px;
-  }
-  select:focus { border-color: var(--green); }
-  .count {
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    margin-left: auto;
-  }
+  .grid { padding: 32px 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px; }
 
-  /* TABLE */
-  .table-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 24px 40px 80px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  thead th {
-    text-align: left;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 8px 12px;
-    border-bottom: 2px solid var(--border);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  tbody tr {
-    border-bottom: 1px solid #eee;
-    transition: background 0.1s;
-  }
-  tbody tr:hover { background: #fff; }
-  tbody tr.is-new { background: #fffbf0; }
-  tbody tr.is-new:hover { background: #fff8e6; }
-  td {
-    padding: 12px 12px;
-    vertical-align: top;
-    font-size: 13px;
-  }
-  .td-name { font-weight: 600; color: var(--text); }
-  .td-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .td-li a {
-    color: var(--green);
-    text-decoration: none;
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .td-li a:hover { text-decoration: underline; }
-  .sector-badge {
-    display: inline-block;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 3px;
-    background: var(--green-light);
-    color: var(--green);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .heat {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-  }
-  .heat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .heat.hot { color: var(--hot); }
-  .heat.hot .heat-dot { background: var(--hot); }
-  .heat.warm { color: var(--warm); }
-  .heat.warm .heat-dot { background: var(--warm); }
-  .heat.coal { color: var(--coal); }
-  .heat.coal .heat-dot { background: var(--coal); }
-  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-  .tag {
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 2px;
-    background: #f0f0f0;
-    color: #555;
-    white-space: nowrap;
-  }
-  .tag.new-tag { background: #fff3cd; color: #856404; }
-  .ev-text { font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 380px; }
-  .no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-    font-size: 15px;
-  }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: box-shadow 0.15s; }
+  .card:hover { box-shadow: 0 4px 20px rgba(28,27,31,0.08); }
 
-  /* FOOTER */
-  .footer {
-    background: var(--text);
-    color: rgba(255,255,255,0.6);
-    padding: 32px 40px;
-    font-size: 12px;
-  }
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .footer-brand { color: #fff; font-weight: 700; }
-  .footer-brand span { color: var(--green); }
-  .contact-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 16px;
-    border-radius: 6px;
-    border: 1px solid var(--green);
-    color: var(--green);
-    background: transparent;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .contact-btn:hover { background: var(--green); color: #fff; }
-  .contact-btn:hover #contact-arch-label { color: #fff; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .heat-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+  .heat-hot { background: rgba(194,74,46,0.1); color: var(--hot); }
+  .heat-warm { background: rgba(184,132,42,0.1); color: var(--warm); }
 
-  /* LEAD MODAL */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: #fff;
-    border-radius: 12px;
-    padding: 36px;
-    max-width: 440px;
-    width: 100%;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.2);
-  }
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-  }
-  .modal-title { font-size: 18px; font-weight: 700; }
-  .modal-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
-  .modal-close {
-    background: none; border: none;
-    font-size: 22px; color: #999;
-    cursor: pointer; line-height: 1; padding: 0;
-    margin-left: 16px;
-  }
-  .modal-close:hover { color: var(--text); }
-  .form-group { margin-bottom: 12px; }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    outline: none;
-    background: #fff;
-  }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { border-color: var(--green); }
-  .form-group textarea { resize: vertical; min-height: 72px; }
-  .submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.15s;
-  }
-  .submit-btn:hover { background: #165f52; }
-  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
-  .modal-footer-note {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    margin-top: 12px;
-  }
-  .success-state { text-align: center; padding: 20px 0; }
-  .success-icon { font-size: 40px; margin-bottom: 12px; }
-  .success-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-  .success-sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
-  .error-msg { font-size: 12px; color: var(--hot); margin-top: 6px; }
+  .card-title { font-family: 'Syne', system-ui, sans-serif; font-size: 14px; font-weight: 700; line-height: 1.4; }
+  .card-org { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--brand); margin-top: 2px; }
+  .card-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .meta-pill { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 3px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+  .card-summary { font-size: 13px; line-height: 1.65; color: rgba(28,27,31,0.75); }
+  .card-evidence { font-size: 12px; line-height: 1.6; color: var(--muted); border-left: 2px solid var(--brand); padding-left: 10px; margin-top: 2px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 3px; background: rgba(27,122,104,0.07); color: var(--brand); }
+  .card-source a { font-size: 11px; color: var(--muted); text-decoration: none; font-family: 'DM Mono', monospace; }
+  .card-source a:hover { color: var(--brand); text-decoration: underline; }
 
-  /* SUBSCRIBE BTN */
-  .subscribe-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 18px;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.02em;
-    transition: background 0.15s;
-    white-space: nowrap;
-  }
-  .subscribe-btn:hover { background: #165f52; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .empty { grid-column: 1/-1; text-align: center; padding: 80px 40px; color: var(--muted); font-size: 15px; }
 
-  @media (max-width: 768px) {
-    .header, .controls, .table-wrap, .footer { padding-left: 16px; padding-right: 16px; }
-    thead { display: none; }
-    tbody tr { display: block; padding: 12px 0; border-bottom: 1px solid #eee; }
-    td { display: block; padding: 2px 0; border: none; }
-    td:before { content: attr(data-label); font-weight: 700; font-size: 10px;
-      text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
+  .loading { display: flex; align-items: center; justify-content: center; padding: 80px; color: var(--muted); font-size: 14px; gap: 10px; }
+  .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .cta-bar { padding: 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+  .cta-bar p { font-size: 14px; color: var(--muted); max-width: 500px; line-height: 1.6; }
+  .cta-form { display: flex; gap: 10px; }
+  .cta-input { font-family: 'Manrope', system-ui, sans-serif; font-size: 13px; padding: 10px 16px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--text); width: 240px; outline: none; }
+  .cta-input:focus { border-color: var(--brand); }
+  .cta-btn { font-family: 'Syne', system-ui, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 10px 20px; background: var(--text); color: var(--bg); border: none; border-radius: 4px; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  .cta-btn:hover { background: var(--brand); }
+  .cta-msg { font-size: 12px; color: var(--brand); margin-top: 6px; display: none; }
+
+  footer { padding: 24px 40px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 600px) {
+    header, .controls, .grid, .cta-bar, footer { padding-left: 20px; padding-right: 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .search-box { width: 100%; margin-left: 0; }
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Syne:wght@600;700&family=Manrope:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+<a href="#main-content" class="sr-only" style="position:absolute;left:-9999px;top:0;background:var(--brand);color:#fff;padding:8px 16px;z-index:999;font-size:13px;text-decoration:none;" onfocus="this.style.left='0'" onblur="this.style.left='-9999px'">Skip to main content</a>
 
-<header class="header">
-  <div class="header-inner">
-    <div class="header-label">Aloha AI Consulting</div>
-    <h1>Platform Suppression Register</h1>
-    <p class="header-desc">A live intelligence register of organizations, creators, accounts, and individuals who have publicly documented algorithmic suppression on Instagram, TikTok, YouTube, Facebook, and X. Every entry sourced from journalism, court filings, regulatory submissions, or direct public statements. Nothing inferred.</p>
-    <div class="header-meta">
-      <div class="header-stat">
-        <span class="num" id="stat-entries">176</span>
-        <span class="label">Named entities</span>
-      </div>
-      <div class="header-stat">
-        <span class="num">11</span>
-        <span class="label">Sectors</span>
-      </div>
-      <div class="header-stat">
-        <span class="num">30+</span>
-        <span class="label">Coalition gatekeepers</span>
-      </div>
-      <div class="header-stat">
-        <span class="num">5</span>
-        <span class="label">Platforms tracked</span>
-      </div>
-    </div>
-    <div class="sweep-status">
-      <span class="sweep-dot"></span>
-      Live — Repro Uncensored sweep Mondays &middot; Voidly Atlas sweep daily
-    </div>
+<header>
+  <div class="header-top">
+    <span class="brand">Aloha AI Consulting</span>
   </div>
+  <h1>Platform Suppression Register <span class="count-badge" id="total-badge" aria-label="incident count">—</span></h1>
+  <p class="header-sub">Documented cases of platform suppression affecting health, cannabis, psychedelics, and harm reduction organizations · 2018–2026</p>
 </header>
 
-<div class="controls">
-  <div class="controls-inner">
-    <div class="search-wrap">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input type="text" id="search" placeholder="Search by name, role, sector, or keyword&hellip;">
+<div class="controls" role="toolbar" aria-label="Filter and search incidents">
+  <button class="filter-btn active" data-filter="all" aria-pressed="true">All incidents</button>
+  <button class="filter-btn hot" data-filter="hot" aria-pressed="false">🔴 Hot — named incidents</button>
+  <button class="filter-btn warm" data-filter="warm" aria-pressed="false">🟡 Warm — documented pattern</button>
+  <button class="filter-btn coalition" data-filter="coalition" aria-pressed="false">Coalition & government action</button>
+  <input class="search-box" type="text" placeholder="Search org, platform, or topic…" id="search-input" aria-label="Search incidents by organization, platform, or topic">
+</div>
+
+<main id="main-content">
+<div class="grid" id="grid">
+  <div class="loading" role="status" aria-live="polite"><div class="spinner" aria-hidden="true"></div> Loading incidents…</div>
+</div>
+</main>
+
+<div class="cta-bar">
+  <p>This register updates automatically. If your organization has been suppressed, shadow-banned, or deplatformed — or you want to understand your platform risk before it happens — Aloha AI Consulting can help. Leave your email and we'll follow up.</p>
+  <div>
+    <div class="cta-form">
+      <label for="cta-email" class="sr-only">Your email address</label>
+      <input class="cta-input" type="email" placeholder="your@email.com" id="cta-email" autocomplete="email" aria-label="Your email address">
+      <button class="cta-btn" type="button" onclick="submitCTA()">Get in touch</button>
     </div>
-    <select id="sector-filter">
-      <option value="">All sectors</option>
-    </select>
-    <select id="heat-filter">
-      <option value="">All heat levels</option>
-      <option value="hot">Hot — named incidents</option>
-      <option value="warm">Warm — documented pattern</option>
-      <option value="coal">Coalition gatekeepers</option>
-    </select>
-    <button class="subscribe-btn" onclick="openModal()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-      </svg>
-      Stay in Touch
-    </button>
-    <span class="count" id="result-count"></span>
+    <div class="cta-msg" id="cta-msg" role="status" aria-live="polite">Got it — we'll be in touch.</div>
   </div>
 </div>
 
-<div class="table-wrap">
-  <table id="register-table">
-    <thead>
-      <tr>
-        <th>Name &amp; Role</th>
-        <th>Sector</th>
-        <th>Heat</th>
-        <th>Evidence</th>
-        <th>Tags</th>
-      </tr>
-    </thead>
-    <tbody id="table-body"></tbody>
-  </table>
-  <div class="no-results" id="no-results" style="display:none">No entries match your search.</div>
-</div>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand">Aloha AI Consulting <span>·</span> Platform Suppression Register</div>
-      <div style="margin-top:4px">Built by RN Collins &middot; Honolulu, HI</div>
-    </div>
-    <button class="contact-btn" id="contact-arch-btn" onclick="handleContactArch()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
-      <span id="contact-arch-label">Contact the Architect</span>
-    </button>
-  </div>
+<footer>
+  <span>Platform Suppression Register · Aloha AI Consulting · Honolulu, HI</span>
+  <span><a href="mailto:collins.ra@northeastern.edu" style="color:inherit;text-decoration:none;">collins.ra@northeastern.edu</a> · <a href="https://linkedin.com/in/rn-collins" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">linkedin.com/in/rn-collins</a></span>
 </footer>
 
-<!-- LEAD MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
-  <div class="modal">
-    <div id="modal-form-state">
-      <div class="modal-header">
-        <div>
-          <div class="modal-title">Stay informed.</div>
-          <div class="modal-sub">Reach out about the register, a project, or just to connect.</div>
-        </div>
-        <button class="modal-close" onclick="closeModal()">&times;</button>
-      </div>
-      <div class="form-group">
-        <input type="text" id="lead-name" placeholder="Your name (optional)">
-      </div>
-      <div class="form-group">
-        <input type="email" id="lead-email" placeholder="Your email address *">
-      </div>
-      <div class="form-group">
-        <select id="lead-type" onchange="toggleOther(this.value)">
-          <option value="">What brings you here? (optional)</option>
-          <option value="Build a tool">Build a tool</option>
-          <option value="Consulting">Consulting</option>
-          <option value="Research">Research</option>
-          <option value="Education">Education</option>
-          <option value="Thought Leadership">Thought Leadership</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group" id="other-field" style="display:none">
-        <input type="text" id="lead-other" placeholder="Tell us more…">
-      </div>
-      <div class="form-group">
-        <textarea id="lead-message" placeholder="What sector or organization are you monitoring? (optional)"></textarea>
-      </div>
-      <div id="lead-error" class="error-msg" style="display:none"></div>
-      <button class="submit-btn" id="submit-btn" onclick="submitLead()">Submit</button>
-      <div class="modal-footer-note">No spam. Unsubscribe anytime. Built by Aloha AI Consulting.</div>
-    </div>
-    <div id="modal-success-state" style="display:none">
-      <div class="success-state">
-        <div class="success-icon">&#10003;</div>
-        <div class="success-title">You&#8217;re on the list.</div>
-        <div class="success-sub">You&#8217;ll hear from us when there&#8217;s something worth your attention. Check your inbox for a confirmation.</div>
-        <button class="submit-btn" onclick="closeModal()" style="margin-top:20px;max-width:160px;margin-left:auto;margin-right:auto;display:block">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-const DATA = [{"name": "Center for Intimacy Justice", "role": "Jackie Rotman, Founder/CEO", "sector": "Sexual wellness", "heat": "coal", "tags": ["159-org report", "DSA litigation", "FTC complaint"], "ev": "159-org 2025 Digital Gag report. 100% Meta ad rejection (2022). DSA litigation prep. FTC complaint. 11 Congressional offices briefed.", "src": "P1", "li": "linkedin.com/in/jacqueline-rotman-7aa3a431", "isNew": false}, {"name": "Repro Uncensored", "role": "Martha Dimitratou, Executive Director", "sector": "Reproductive health", "heat": "coal", "tags": ["130+/month April 2026", "Live case feed", "DSA complaint"], "ev": "210 incidents 2025 vs 81 in 2024. Q1 2026 already exceeded half of 2025 total. 5–6 new reports per day.", "src": "P1", "li": "", "isNew": false}, {"name": "EFF", "role": "Rindala Alajaji · Jennifer Pinsof · Paige Collings", "sector": "Reproductive health", "heat": "coal", "tags": ["~100 incidents", "FOSTA litigation", "#StopCensoringAbortion"], "ev": "#StopCensoringAbortion: ~100 documented incidents. FOSTA challenge. Paige Collings: EDRi board, ex-EFF LGBTQ+ policy lead.", "src": "P1", "li": "linkedin.com/in/jennifer-pinsof-03304088", "isNew": false}, {"name": "CensHERship", "role": "Clio Wood & Anna O'Sullivan", "sector": "Sexual wellness", "heat": "coal", "tags": ["EU DSA complaint", "95% survey", "190+ org letter"], "ev": "Filed EU DSA complaint March 2025. 95% of women's health creators experienced censorship. 190+ org open letter March 2026.", "src": "P1", "li": "", "isNew": false}, {"name": "WHVA (600+ signatories)", "role": "Essity, Clue, Hertility, Daye, Mooncup + 600 more", "sector": "Femtech / maternal", "heat": "coal", "tags": ["600+ signatories", "March 2026", "Pre-built prospect list"], "ev": "Launched March 2026. 600+ founders, clinicians, charities, academics, investors signed open letter. Every signatory is a pre-qualified prospect.", "src": "P2", "li": "", "isNew": false}, {"name": "7amleh", "role": "Eric Sype, National Organizer USA", "sector": "Palestine / MENA", "heat": "coal", "tags": ["5,100+ cases", "ECOSOC member"], "ev": "5,100+ documented Palestinian content censorship cases.", "src": "P1", "li": "linkedin.com/in/eric-sype-1b7540129", "isNew": false}, {"name": "Bureau Brandeis / Minke Gommer", "role": "Dutch law firm · first DSA discrimination case", "sector": "EU DSA litigation", "heat": "coal", "tags": ["First DSA discrimination case", "May 20 2026"], "ev": "First case using DSA to challenge content moderation on discrimination grounds. May 20, 2026.", "src": "P3", "li": "", "isNew": false}, {"name": "Cannabis Marketing Association", "role": "Lisa Buffo, Founder & CEO", "sector": "Cannabis", "heat": "coal", "tags": ["2,500+ members", "Trade body"], "ev": "2,500+ member trade body. Gateway to cannabis operator suppression sector.", "src": "P3", "li": "", "isNew": false}, {"name": "Hacking//Hustling", "role": "Danielle Blunt & Ariel Wolf", "sector": "Sex worker rights", "heat": "coal", "tags": ["FOSTA", "110+ survey"], "ev": "'Erased: The Impact of FOSTA-SESTA' — 110+ sex workers surveyed. Gateway to sex worker sector.", "src": "P1", "li": "", "isNew": false}, {"name": "The Case for Her", "role": "Cristina Ljungberg · Wendy Anderson", "sector": "Sexual wellness", "heat": "coal", "tags": ["Funder", "DSA partner"], "ev": "Funds CIJ. Co-led CensHERship DSA complaint. WHVA investor participant.", "src": "P1", "li": "", "isNew": false}, {"name": "COC Netherlands", "role": "Philip Tijsma", "sector": "LGBTQ+", "heat": "coal", "tags": ["EU legal coalition", "DSA"], "ev": "Coordinating EU legal response via Bureau Brandeis / Bits of Freedom.", "src": "P1", "li": "", "isNew": false}, {"name": "GLAAD / Leanna Garfield", "role": "Social Media Safety Program Manager", "sector": "LGBTQ+", "heat": "coal", "tags": ["US coalition", "LGBTQ+ monitoring"], "ev": "'Meta categorizing LGBTQ hashtags as sensitive content is an alarming example of censorship.'", "src": "P3", "li": "", "isNew": false}, {"name": "Jess Rauchberg", "role": "Asst Professor, Seton Hall · Algorithmic Ableism author", "sector": "Disability", "heat": "coal", "tags": ["Academic gatekeeper", "jessica.rauchberg@shu.edu"], "ev": "'Articulating Algorithmic Ableism' (Journal of Gender Studies, March 2025). Gateway to disability creator sector.", "src": "P2", "li": "", "isNew": false}, {"name": "Emily Darlington MP", "role": "Labour MP, Milton Keynes Central", "sector": "UK regulatory", "heat": "coal", "tags": ["May 20 2026 debate", "House of Commons"], "ev": "Led May 20, 2026 backbench business debate on shadow banning of women's health content.", "src": "P4", "li": "", "isNew": false}, {"name": "Kate Prince / Essity (Bodyform)", "role": "Essity spokesperson", "sector": "Femtech / maternal", "heat": "coal", "tags": ["22 blocks/month", "3x suppression vs men's"], "ev": "Bodyform blocked 22 times in one month. Essity study: women's health 3× more suppressed than men's.", "src": "P3", "li": "", "isNew": false}, {"name": "English Collective of Prostitutes", "role": "UK sex worker organization", "sector": "Sex worker rights", "heat": "coal", "tags": ["UK sex workers", "Repro Uncensored contributor"], "ev": "Wrote Repro Uncensored's November 2025 analysis on queer and sex worker erasure.", "src": "P4", "li": "", "isNew": false}, {"name": "Paige Collings", "role": "EDRi Board Member · ex-EFF", "sector": "EU digital rights", "heat": "coal", "tags": ["EDRi", "EU civil society"], "ev": "EFF #StopCensoringAbortion contributor. Now at European Digital Rights.", "src": "P4", "li": "linkedin.com/in/paige-collings-58887a40", "isNew": false}, {"name": "Appeals Centre Europe", "role": "EU DSA independent dispute body", "sector": "EU regulatory", "heat": "coal", "tags": ["4,600 cases", "Meta non-compliant 97%+", "BBC May 2026"], "ev": "4,600 Meta account ban cases reviewed. Meta provided evidence in fewer than 100 (< 2.2% compliance). Disagreed with platform in 59% of reviewable cases.", "src": "P6-BBC", "li": "", "isNew": false}, {"name": "Sada Social", "role": "Palestinian digital rights org", "sector": "Palestine / MENA", "heat": "coal", "tags": ["25,000+ violations", "Digital Rights Index 2024"], "ev": "25,000+ violations against Palestinian digital content. 29% targeted journalists. Coalition gatekeeper for Palestinian digital rights sector.", "src": "P6-GlobalVoices", "li": "", "isNew": false}, {"name": "THICK 'N' JUICY", "role": "Colt & Shafaati · Australia", "sector": "LGBTQ+ / body-positive", "heat": "hot", "tags": ["May 21 2026", "Most recent incident"], "ev": "May 21, 2026 — most recent suppression incident in register. Suspended after posting man's chest. Meta still charging for ads.", "src": "P4", "li": "", "isNew": false}, {"name": "Michelle Shnaidman / Bellesa Boutique", "role": "Founder & CEO", "sector": "Sexual wellness", "heat": "hot", "tags": ["700K deleted", "March 28 2026", "Legal action vs Meta"], "ev": "700K followers permanently deleted for 'clitoris.' Pursuing legal action. Crowdsourced evidence at evidence@bellesa.co.", "src": "P2", "li": "linkedin.com/in/michelle-shnaidman-695850bb", "isNew": false}, {"name": "GLP-1 / telehealth sector (600K accounts)", "role": "Compounding pharmacies, health coaches, telehealth brands", "sector": "GLP-1 / telehealth", "heat": "hot", "tags": ["600K accounts May 2026", "Largest purge ever"], "ev": "May 2026: 600,000 accounts removed in 2 weeks. FDA warning letters, FTC Notices, class action named Meta. Entry via LegitScript, Auxon Growth, Wellness MD Group.", "src": "P4", "li": "", "isNew": false}, {"name": "Bisan Owda", "role": "Gaza journalist, AJ+ · Emmy/Peabody/Murrow", "sector": "Palestine / MENA", "heat": "hot", "tags": ["1.4M TikTok deleted", "Jan 29 2026"], "ev": "TikTok banned her 1.4M account days after US ownership transfer. Restored in 24hrs. Videos now labeled 'ineligible for recommendation.'", "src": "P4", "li": "", "isNew": false}, {"name": "Saleh Aljafarawi", "role": "Palestinian journalist · 9.5M combined Instagram followers", "sector": "Palestine / MENA", "heat": "hot", "tags": ["9.5M followers deleted", "Two accounts simultaneously", "March 2025"], "ev": "Both Instagram accounts (combined 9.5M followers) suspended simultaneously without warning. Largest follower-count loss of any individual in the register.", "src": "P6-NewArab", "li": "", "isNew": false}, {"name": "Hind Khoudary", "role": "Palestinian journalist · Gaza", "sector": "Palestine / MENA", "heat": "hot", "tags": ["Suppression documented", "Gaza journalist"], "ev": "Named alongside Bisan Owda, Saleh Aljafarawi, and Moataz Azaiza as Palestinian journalists with documented platform suppression.", "src": "P6-NewArab", "li": "", "isNew": false}, {"name": "Moataz Azaiza", "role": "Palestinian journalist · Gaza", "sector": "Palestine / MENA", "heat": "hot", "tags": ["Suppression documented", "Gaza journalist"], "ev": "Named alongside Bisan Owda, Saleh Aljafarawi, and Hind Khoudary. Gaza-based conflict documentation.", "src": "P6-NewArab", "li": "", "isNew": false}, {"name": "BUTT Magazine / @buttmagazine", "role": "Gert Jonkers + Jop van Bennekom · Netherlands", "sector": "LGBTQ+", "heat": "hot", "tags": ["May 3 2026", "Bottega Veneta-backed", "24K circulation"], "ev": "Instagram suspended May 3, 2026. Biannual queer magazine, Netherlands, 24,000 circulation. Bottega Veneta backing.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Stuart Sandford", "role": "International multidisciplinary artist · 20K followers", "sector": "LGBTQ+ / creative", "heat": "hot", "tags": ["Mar 27 2026", "'Fraud and deception'"], "ev": "March 27, 2026: Instagram + Facebook permanently disabled for 'fraud and deception.' Queer expression themes. Exhibitions globally.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Neowarras", "role": "Queer cultural collective", "sector": "LGBTQ+", "heat": "hot", "tags": ["Apr 26 2026", "Instagram disabled"], "ev": "April 26, 2026: Instagram disabled. Named in Repro Uncensored case log.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Just The Pill / @JustthePill", "role": "Telehealth abortion · Wyoming", "sector": "Reproductive health", "heat": "hot", "tags": ["Jan 2026 Facebook ban", "10,000+ abortions", "Wyoming only provider"], "ev": "Facebook suspended January 2026. Only abortion provider serving Wyoming. 10,000+ abortions since 2020.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "@Pro_Abort", "role": "Ukrainian abortion info · Women Help Women affiliate", "sector": "Reproductive health", "heat": "hot", "tags": ["Wartime", "Feb 2026 permanent ban", "92,600 reached/month"], "ev": "Permanently suspended February 10, 2026. 92,600 people reached in December. War and displacement context.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Carafem / @carafem", "role": "Licensed abortion provider · 20 US states", "sector": "Reproductive health", "heat": "hot", "tags": ["Instagram + Threads banned", "~Aug 2025"], "ev": "Instagram and Threads suspended ~August 2025. FDA-approved abortion pills by mail in 20 US states.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Indigenous Women Rising / @indigenouswomenrising", "role": "Native-led org · USA + Canada", "sector": "Reproductive health", "heat": "hot", "tags": ["Shadowban Sep 2025", "No violations"], "ev": "September 2025: posts hidden from non-followers, excluded from Explore. No policy violations.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Plan C", "role": "Abortion pill access organization · USA", "sector": "Reproductive health", "heat": "hot", "tags": ["10+ posts removed", "Mar 2025"], "ev": "March 2025: 10+ posts removed in 24 hours. No appeal offered.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Shout Your Abortion", "role": "Abortion storytelling organization · USA", "sector": "Reproductive health", "heat": "hot", "tags": ["10+ posts removed", "Mar 2025"], "ev": "March 2025: 10+ posts removed in same 24-hour wave as Plan C.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Cami Te Ayuda", "role": "Chilean abortion information account", "sector": "Reproductive health", "heat": "hot", "tags": ["Permanently removed", "Chile"], "ev": "April 2025: permanently removed for sharing accurate, legal abortion info in Chile.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Con Las Amigas y En La Casa", "role": "Chilean reproductive health account", "sector": "Reproductive health", "heat": "hot", "tags": ["Chile", "Admin permanently removed"], "ev": "January 2025: suspended; restored after pressure. Admin's personal account permanently removed with no appeal.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "@awareness.advocacy.change", "role": "Political/social content · 230K+ followers", "sector": "LGBTQ+ / political", "heat": "hot", "tags": ["230K followers", "Diego Luna clip"], "ev": "Suspended for sharing Diego Luna discussing immigrant rights on Jimmy Kimmel Live.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "@all_things_democracy", "role": "Fact-based political/social content · 330K+ followers", "sector": "LGBTQ+ / political", "heat": "hot", "tags": ["330K followers", "Shadowban"], "ev": "Instagram actively suppressing: 330K+ followers, previously reaching 25M+ monthly.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "@tqfc.clubhouse", "role": "Queer, trans, women-led football · Netherlands", "sector": "LGBTQ+", "heat": "hot", "tags": ["Nov 2025", "EU DSA"], "ev": "November 2025: Meta removed alongside dozens of Dutch queer accounts.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "@ma_hotline_es", "role": "M+A Hotline Spanish · miscarriage and abortion", "sector": "Reproductive health", "heat": "hot", "tags": ["TikTok ban Aug 2025", "Simultaneous with @AidAccess"], "ev": "August 5, 2025: TikTok suspended @AidAccess and @ma_hotline_es within 5 minutes of each other.", "src": "P5-RU", "li": "", "isNew": false}, {"name": "Médecins du Monde — Jasmine programme", "role": "French medical NGO · sex worker harm reduction", "sector": "Sex worker rights", "heat": "hot", "tags": ["May 5–11 2026", "Permanent disable"], "ev": "May 5–11, 2026: Jasmine programme permanently disabled. Appeal rejected. DSA complaint in progress.", "src": "P3", "li": "", "isNew": false}, {"name": "Rosela", "role": "Médecins du Monde second programme", "sector": "Sex worker rights", "heat": "hot", "tags": ["May 2026", "MdM second programme"], "ev": "Second MdM field programme disabled after Jasmine in May 2026.", "src": "P6-RFI", "li": "", "isNew": false}, {"name": "Grisélidis", "role": "MdM partner association · Toulouse", "sector": "Sex worker rights", "heat": "hot", "tags": ["Toulouse", "Condom outreach post removed"], "ev": "Disabled after posting outreach session announcement offering condoms and lubricant.", "src": "P6-RFI", "li": "", "isNew": false}, {"name": "Sarah-Marie Maffesoli", "role": "Sex work advocacy officer · Médecins du Monde", "sector": "Sex worker rights", "heat": "hot", "tags": ["Named MdM spokesperson", "'No notification'"], "ev": "Named MdM spokesperson for Jasmine/Rosela/Grisélidis cases. 'We were suspended without any kind of notification.'", "src": "P6-RFI", "li": "", "isNew": false}, {"name": "Women Help Women", "role": "Kinga Jelinska, Executive Director", "sector": "Reproductive health", "heat": "hot", "tags": ["Nov 2025 ban", "Multiple subsequent bans"], "ev": "11-year-old Facebook page banned Nov 2025. Reinstated. Then Latin America + Italian pages also banned.", "src": "P1", "li": "", "isNew": false}, {"name": "Fundación Jacarandas / @SomosJacarandas", "role": "Viviana Monsalve, Director · Colombia", "sector": "Reproductive health", "heat": "hot", "tags": ["WhatsApp helpline", "Colombia", "Dec 2025"], "ev": "Colombian feminist abortion helpline. WhatsApp restricted multiple times since October 2025.", "src": "P1", "li": "", "isNew": false}, {"name": "My Voice, My Choice / Nika Povž", "role": "Director of Communications · EU abortion access", "sector": "Reproductive health", "heat": "hot", "tags": ["300+ days restricted", "EU"], "ev": "300+ days livestream disabled. Formal complaint with Meta. Coordinated mass reporting by anti-abortion groups suspected.", "src": "P1", "li": "", "isNew": false}, {"name": "Brenna Miller", "role": "TikTok creator, public health professional", "sector": "Reproductive health", "heat": "hot", "tags": ["Carafem unboxing video", "Named in AP"], "ev": "carafem abortion pill unboxing video removed by TikTok. Named in AP September 2025.", "src": "P4", "li": "", "isNew": false}, {"name": "Tammi Kromenaker", "role": "Director, Red River Women's Clinic · Moorhead MN", "sector": "Reproductive health", "heat": "hot", "tags": ["Ad account suspended", "Named in AP"], "ev": "Mifepristone post → ad account suspended → restored → re-suspended. Named in AP September 2025.", "src": "P4", "li": "", "isNew": false}, {"name": "Sara Redd / RISE Emory University", "role": "Director of Research Translation", "sector": "Reproductive health", "heat": "hot", "tags": ["Permanent deletion", "Named in AP"], "ev": "Mifepristone post → permanently deleted → reversed after Meta contact. Named in AP September 2025.", "src": "P4", "li": "", "isNew": false}, {"name": "Aid Access", "role": "Online abortion services provider", "sector": "Reproductive health", "heat": "hot", "tags": ["Posts blurred Jan 2025", "TikTok ban Aug 2025"], "ev": "Jan 2025: posts blurred after Trump inauguration. Aug 5 2025: TikTok suspended @AidAccess within 5 minutes of @ma_hotline_es.", "src": "P1", "li": "", "isNew": false}, {"name": "MSI Foundation / MSI Reproductive Choices (Mexico)", "role": "Mexico reproductive health NGO · 25 years", "sector": "Reproductive health", "heat": "hot", "tags": ["WhatsApp suspended Feb 2025", "80% drop in appointments"], "ev": "WhatsApp business account suspended February 2025. 80% drop in service appointments.", "src": "P6-AP", "li": "", "isNew": false}, {"name": "Oriéntame / Tatiana Martínez", "role": "Colombian reproductive health collective", "sector": "Reproductive health", "heat": "hot", "tags": ["14+ posts removed", "'Dangerous people and organizations'"], "ev": "14+ posts removed April 2025. WhatsApp suspended. Labeled 'Dangerous people and organizations' for heart emoji + 'Abort without pain.'", "src": "P6-AP", "li": "", "isNew": false}, {"name": "Fatma Ibrahim / The Sex Talk Arabic", "role": "Director · UK Arabic-language SRHR", "sector": "Reproductive health", "heat": "hot", "tags": ["Shadowban", "Regional context missing"], "ev": "Frequent warnings, non-explicit nudity removed. 'Meta's moderation is US-centric and lacks regional context.'", "src": "P1", "li": "", "isNew": false}, {"name": "Rhiannon White", "role": "CEO, Clue (100M users)", "sector": "Femtech / maternal", "heat": "hot", "tags": ["WHVA founding CEO", "EU DSA"], "ev": "WHVA founding member. 'Consistently blocked for baffling, unclear and frankly biased reasons.'", "src": "P2", "li": "linkedin.com/in/rhiannon-white-5422a111", "isNew": false}, {"name": "Deirdre O'Neill", "role": "Co-Founder, Hertility", "sector": "Femtech / maternal", "heat": "hot", "tags": ["40% traffic drop", "WHVA founding"], "ev": "'We are being punished by the algorithm. There is a pattern of bias here.' 40% traffic drop.", "src": "P2", "li": "linkedin.com/in/deirdre-o-neill-a8bb6a14", "isNew": false}, {"name": "Irene Breen / BellaMoon", "role": "CEO · Ireland", "sector": "Femtech / maternal", "heat": "hot", "tags": ["10 months restricted", "CensHERship DSA"], "ev": "10 months fully Meta-restricted. CensHERship DSA complainant.", "src": "P2", "li": "", "isNew": false}, {"name": "Cindy Gallop / MakeLoveNotPorn", "role": "Founder & CEO", "sector": "Sexual wellness", "heat": "hot", "tags": ["LinkedIn algorithm", "Banned all platforms"], "ev": "Co-launched 'Fairness in the Feed' petition Jan 2025. Banned from advertising on Facebook, Instagram, TikTok, Snapchat.", "src": "P1", "li": "linkedin.com/in/cindy-gallop-8050402", "isNew": false}, {"name": "HANX / Dr. Sarah Welsh", "role": "Co-founder · UK", "sector": "Sexual wellness", "heat": "hot", "tags": ["EU DSA complainant", "CensHERship"], "ev": "Named CensHERship EU DSA complainant March 2025.", "src": "P2", "li": "", "isNew": false}, {"name": "Daye", "role": "CBD period care brand · UK", "sector": "Sexual wellness", "heat": "hot", "tags": ["EU DSA complainant"], "ev": "Named CensHERship EU DSA complainant March 2025.", "src": "P2", "li": "", "isNew": false}, {"name": "Bea Fertility", "role": "Fertility app", "sector": "Femtech / maternal", "heat": "hot", "tags": ["EU DSA complainant"], "ev": "Named CensHERship EU DSA complainant March 2025.", "src": "P2", "li": "", "isNew": false}, {"name": "Lactapp", "role": "Breastfeeding app", "sector": "Femtech / maternal", "heat": "hot", "tags": ["'teta' auto-beeped", "EU DSA complainant"], "ev": "Spanish word 'teta' auto-beeped in educational posts. Named CensHERship complainant.", "src": "P2", "li": "", "isNew": false}, {"name": "Spankie Jackzon", "role": "Drag Race Down Under winner · Australia", "sector": "LGBTQ+", "heat": "hot", "tags": ["'Human exploitation'", "March 2026"], "ev": "Locked out of three accounts. Monetized ads still running but no access. NSW LGBTQ+ Community Arts Hub hit in same wave.", "src": "P1", "li": "", "isNew": false}, {"name": "ChUrch Amsterdam", "role": "Richard Keldoulis + Elard Diekman + Wim Peeks", "sector": "LGBTQ+", "heat": "hot", "tags": ["18K deleted", "Three waves", "Bureau Brandeis legal"], "ev": "Deleted three times. Bureau Brandeis engaged; reinstated day after legal letter. Then deleted again. 'Forever banished.'", "src": "P4", "li": "", "isNew": false}, {"name": "Sydney Sauna", "role": "LGBTQ+ venue · Oxford Street Sydney · since 1989", "sector": "LGBTQ+", "heat": "hot", "tags": ["Mar 29 2026", "5K followers", "No flagged content"], "ev": "5,000 followers permanently suspended March 29, 2026 without warning or prior flagged content.", "src": "P4", "li": "", "isNew": false}, {"name": "Basjia / The Pyramid", "role": "Sydney-based Black queer performer", "sector": "LGBTQ+", "heat": "hot", "tags": ["'Human exploitation'", "Australia", "No reinstatement"], "ev": "Event page flagged 'human exploitation.' All connected accounts disabled. No reinstatement.", "src": "P4", "li": "", "isNew": false}, {"name": "Sapphic Paradise collective", "role": "Queer Black/brown strippers · Toronto", "sector": "LGBTQ+ / sex worker", "heat": "hot", "tags": ["Permanent ban", "'Human exploitation'"], "ev": "Photo of ankles and high heels triggered permanent ban. Had to pay $15 Meta Verified to speak to a human.", "src": "P3", "li": "", "isNew": false}, {"name": "Mistress Juju", "role": "Toronto queer dominatrix", "sector": "LGBTQ+ / sex worker", "heat": "hot", "tags": ["'I'm a top' in bio", "'femme' caption"], "ev": "Permanently banned for bio saying 'I'm a top' with pride flag emoji and selfie captioned 'femme.'", "src": "P3", "li": "", "isNew": false}, {"name": "Tianna Moon", "role": "30-year-old influencer · gigantomastia", "sector": "Body-positive / disability", "heat": "hot", "tags": ["Medical condition banned", "All 5 accounts", "Feb 2026"], "ev": "Natural chest from rare gigantomastia condition flagged as AI-generated. All five accounts banned February 2026.", "src": "P4", "li": "", "isNew": false}, {"name": "Aria Wanzer / @ariscestocrat", "role": "Trans creator · 150K followers", "sector": "LGBTQ+", "heat": "hot", "tags": ["'Trans' = sexual content", "TikTok"], "ev": "TikTok flagged her live as 'sexual content' solely for saying the word 'trans.'", "src": "P1", "li": "", "isNew": false}, {"name": "Bobbi's Pole Studio", "role": "Pole dance studio + competition accounts", "sector": "LGBTQ+ / body-positive", "heat": "hot", "tags": ["4 accounts lost", "Australia", "Dec 2025"], "ev": "Lost four accounts including Mr Pole Dance World and Miss Pole Dance Australia.", "src": "P3", "li": "", "isNew": false}, {"name": "AIVIL / John Gobeil", "role": "CEO, Australian Injecting & Illicit Drug Users League", "sector": "Harm reduction", "heat": "hot", "tags": ["eSafety petition April 2026", "Australia"], "ev": "'Meta is silencing health workers who are simply trying to stop people from overdosing.' Formally petitioned eSafety Commissioner.", "src": "P3", "li": "", "isNew": false}, {"name": "CanTEST / David Caldicott", "role": "Clinical Lead · emergency doctor · Canberra", "sector": "Harm reduction", "heat": "hot", "tags": ["Festival warning removed", "Australia"], "ev": "Spilt Milk festival December 2025: nitazene warning removed 3 days before festival. Appeal rejected.", "src": "P3", "li": "", "isNew": false}, {"name": "Pill Testing Australia", "role": "Drug checking service", "sector": "Harm reduction", "heat": "hot", "tags": ["Instagram + Facebook + TikTok banned"], "ev": "Removed across Instagram, Facebook. Banned from TikTok. Part of AIVIL's eSafety petition.", "src": "P4", "li": "", "isNew": false}, {"name": "KnowYourStuffNZ", "role": "NZ drug checking service", "sector": "Harm reduction", "heat": "hot", "tags": ["Communications lead permanently banned"], "ev": "Communications lead permanently banned after post warning of high-risk synthetic cathinone mis-sold as MDMA.", "src": "P4", "li": "", "isNew": false}, {"name": "John Greene / CMS Gardens", "role": "Co-owner · RI cannabis cultivator", "sector": "Cannabis", "heat": "hot", "tags": ["Quoted MJBizDaily", "Meta T&C wave", "Nov 2024"], "ev": "'As soon as that email was sent to Meta users, thousands of accounts related to cannabis started going down.'", "src": "P1", "li": "", "isNew": false}, {"name": "Jocelyn Sheltraw / Budist", "role": "Co-founder/CEO · CA cannabis", "sector": "Cannabis", "heat": "hot", "tags": ["Education-only suspended", "'$2,000–$6,000 brokers'"], "ev": "Instagram suspended education-only business account. '$2,000 to $6,000 brokers' charging to restore accounts.", "src": "P1", "li": "", "isNew": false}, {"name": "SDVICA / Osbert Orduna", "role": "Service Disabled Veterans in Cannabis", "sector": "Cannabis", "heat": "hot", "tags": ["Nov 21 2024 ban", "No warning"], "ev": "Instagram suspended without notice. New York Post and Heady NJ coverage.", "src": "P2", "li": "", "isNew": false}, {"name": "Gegen / Mar/us", "role": "Co-founder · Berlin queer collective · 15 years", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["90K followers deleted", "Aug + Oct 2025", "'Human exploitation'"], "ev": "90,000 followers permanently deleted August 17 + October 7, 2025. Two co-founders' accounts also deleted by association. EU DSA jurisdiction. Resident Advisor December 2025.", "src": "P6-RA", "li": "", "isNew": false}, {"name": "Replicant Events / Lenny Cartwright", "role": "Founder · Paris queer collective", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["All 8 accounts banned", "Mayor Hidalgo intervened"], "ev": "All eight accounts permanently banned August 2025. Hired lawyer and petitioned Paris Mayor Anne Hidalgo to contact Meta France. Only case where a sitting head of government directly intervened.", "src": "P6-RA", "li": "", "isNew": false}, {"name": "Chachorros / Camilo", "role": "Founder · Santiago queer party", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["15K followers", "Staff 30→10", "Ticket sales 800→120"], "ev": "Lost account near 15,000 followers. WhatsApp work account also wiped. Staff from 30 to 10. Ticket sales from 800 to 120 per event.", "src": "P6-RA", "li": "", "isNew": false}, {"name": "Horn / Korn", "role": "Founder · Bangkok club and collective", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["8K followers Sep 2025", "Ad funds deleted unrecoverable"], "ev": "8,000 followers suspended September 2025. Ad account money permanently unrecoverable. 20% follower recovery on new account.", "src": "P6-RA", "li": "", "isNew": false}, {"name": "Insomnia Berlin / Dominique", "role": "Director · Berlin sex-positive club", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["25K + 12K both deleted", "Both remain blocked", "'Blatant US censorship'"], "ev": "First account (25K) deleted mid-March 2026. Second account (12K) deleted one week later. Both remain blocked. 'This is blatant US censorship.' Considering Berlin Club Commission for legal action.", "src": "P6-Berliner", "li": "", "isNew": false}, {"name": "Kae Rosado / ICE Sightings Chicagoland", "role": "Founder · ICE reporting Facebook group · Cicero IL", "sector": "Immigration / political", "heat": "hot", "tags": ["80K+ members", "Federal lawsuit", "First Amendment ruling Apr 2026"], "ev": "80,000+ members. Facebook disabled October 2025. AG Pam Bondi claimed credit. Federal lawsuit filed Feb 2026. Illinois judge ruled April 19, 2026 Trump administration 'coerced' Facebook in violation of First Amendment.", "src": "P6-FIRE", "li": "", "isNew": false}, {"name": "Mark Hodges / Eyes Up / Kreisau Group", "role": "Founder · Eyes Up iOS app · Indiana", "sector": "Immigration / political", "heat": "hot", "tags": ["Apple approved then removed", "DOJ pressure", "FIRE lawsuit plaintiff"], "ev": "Apple reviewed and approved Eyes Up in August 2025. Removed in October after AG Bondi 'demanded' it. Named plaintiff in FIRE federal lawsuit.", "src": "P6-FIRE", "li": "", "isNew": false}, {"name": "MontCo Community Watch", "role": "Grassroots ICE tracking org · Montgomery County PA · anonymous", "sector": "Immigration / political", "heat": "hot", "tags": ["DHS summons to Meta", "Federal judge blocked", "ACLU suit"], "ev": "DHS sent summonses to Meta seeking operators' identities. Federal Magistrate Judge Peter H. Kang blocked Meta from complying. ACLU filed suit.", "src": "P6-Inquirer", "li": "", "isNew": false}, {"name": "AntiFreeze / antifreeze.app", "role": "ICE-sighting Progressive Web App · Cloudflare Project Galileo", "sector": "Immigration / political", "heat": "hot", "tags": ["Instagram ad account restricted May 2026", "Never ran an ad", "EFF FOIA lawsuit"], "ev": "Instagram restricted from running ads May 19, 2026 despite never running an ad or using automation. 3-minute automated appeal confirmed restriction. Accepted into Cloudflare Project Galileo.", "src": "P6-DailyKos", "li": "", "isNew": false}, {"name": "Micah Leroy / 'Disabled Trans Boy'", "role": "19-year-old · disabled trans creator · cerebral palsy · University of Minnesota", "sector": "Disability / LGBTQ+", "heat": "hot", "tags": ["Mass reported by conservatives", "Instagram permanently removed", "CSAM flag on legal adult"], "ev": "Top surgery celebration video triggered mass reporting by Riley Gaines and MTG followers. Meta permanently removed Instagram for 'child sexual exploitation' — flagged as CSAM despite being a legal adult.", "src": "P6-Advocate", "li": "", "isNew": false}, {"name": "Leighton Clarke / @uncletics", "role": "Kiwi creator · Tourette's syndrome · 4.7M TikTok followers", "sector": "Disability", "heat": "hot", "tags": ["4.7M followers", "Permanently banned", "Vocal tic flagged", "March 2026"], "ev": "4.7 million TikTok followers permanently banned March 2026 after a vocal Tourette's tic during livestream. 7 years of content wiped.", "src": "P6-NZHerald", "li": "", "isNew": false}, {"name": "Ashley Young / OrlandoCyborgAshley", "role": "UK disabled creator · 162K TikTok followers · limb difference", "sector": "Disability", "heat": "hot", "tags": ["Arm flagged as 'penis'", "162K followers at risk", "Income stopped 2026"], "ev": "Limb difference (arm) flagged by AI as a penis — banned twice for 'body nudity and sexual behaviour' while wearing t-shirt and jeans. Income stopped.", "src": "P6-Substack", "li": "", "isNew": false}, {"name": "TPSEA / Jelle Keizer", "role": "Te Piringa Student Events Association president · University of Waikato · NZ", "sector": "Disability / LGBTQ+", "heat": "hot", "tags": ["Intersex moot flagged Apr 28 2026", "Device-proximity punishment", "Oversight Board pathway blocked"], "ev": "Law student association suspended after promoting Intersex Human Rights Moot Court Competition. President's personal accounts permanently deleted by device/WiFi proximity. Meta refused to provide Oversight Board reference number — blocking the only independent appeal pathway.", "src": "P6-Scoop", "li": "", "isNew": false}, {"name": "Esperanza Gómez", "role": "Adult content creator · 5M Instagram followers · Colombia", "sector": "Sex worker / adult", "heat": "warm", "tags": ["Colombia Constitutional Court", "Sep 2025", "Precedent-setting"], "ev": "September 2025: Colombia Constitutional Court ruled Meta violated her freedom of expression. First court ruling on content moderation and digital influencer rights.", "src": "P1", "li": "", "isNew": false}, {"name": "KitKatClub", "role": "Berlin fetish club · 220,000 followers", "sector": "LGBTQ+ nightlife", "heat": "warm", "tags": ["220K followers", "Mar 24 2026", "Departed to WERZ platform"], "ev": "220,000 followers deleted March 24, 2026. Reinstated 8 days later. Then formally departed Meta permanently for WERZ — Berlin nightlife alternative platform.", "src": "P6-Berliner", "li": "", "isNew": false}, {"name": "Klub Verboten", "role": "Berlin · queer nightlife", "sector": "LGBTQ+ nightlife", "heat": "warm", "tags": ["Berlin", "Similar issues confirmed"], "ev": "Named in The Berliner April 3, 2026 as having faced similar account issues.", "src": "P6-Berliner", "li": "", "isNew": false}, {"name": "Dominick Skinner / ICE List", "role": "Creator · ICE accountability website · 4 volunteers", "sector": "Immigration / political", "heat": "warm", "tags": ["Links blocked Meta Jan 2026", "Public source information"], "ev": "Meta began blocking all links to ICE List on Facebook, Instagram, and Threads January 2026. 'No surprise that a company run by a man who sat behind Trump at his inauguration has taken a stance that helps ICE agents retain anonymity.'", "src": "P6-Wired", "li": "", "isNew": false}, {"name": "Bria Kam & Chrissy Chambers", "role": "BriaAndChrissy · 850K+ YouTube subscribers", "sector": "LGBTQ+", "heat": "warm", "tags": ["YouTube class action plaintiff", "Case 5:19-cv-04749"], "ev": "Named plaintiff, LGBTQ+ v. Google/YouTube. Music video demonetized 2017.", "src": "P4", "li": "", "isNew": false}, {"name": "Chase Ross / uppercaseCHASE1", "role": "Transgender activist · YouTube", "sector": "LGBTQ+", "heat": "warm", "tags": ["YouTube class action plaintiff", "'Transgender' = demonetization trigger"], "ev": "Named plaintiff. Documented 'transgender' in video titles triggered demonetization.", "src": "P4", "li": "", "isNew": false}, {"name": "Lindsay Amer / QueerKidStuff", "role": "LGBTQ+ educational content for children", "sector": "LGBTQ+", "heat": "warm", "tags": ["YouTube class action plaintiff"], "ev": "Named plaintiff. Platform allowed neo-Nazi harassment campaign; YouTube did nothing.", "src": "P4", "li": "", "isNew": false}, {"name": "Nyome Nicholas-Williams / @curvynyome", "role": "Black plus-size model", "sector": "Body-positive", "heat": "warm", "tags": ["Forced 2020 policy change", "Shadow ban ongoing"], "ev": "2020: forced Instagram's nudity policy change for plus-size Black bodies. Continues shadow banning.", "src": "P1", "li": "", "isNew": false}, {"name": "Carina Shero / Femme FATales", "role": "Plus-size influencer", "sector": "Body-positive", "heat": "warm", "tags": ["533K followers", "Shadow banned 2.5 years", "7th account"], "ev": "Shadow banned 2.5 years. On her 7th Instagram account.", "src": "P1", "li": "", "isNew": false}, {"name": "Violet Elliot", "role": "87K TikTok followers · dwarfism advocacy", "sector": "Disability", "heat": "warm", "tags": ["87K followers banned", "False age violation", "500 videos flagged"], "ev": "Banned for false age requirement (dwarfism-based false positive). Nearly 500 of 600+ videos marked violations on reinstatement.", "src": "P6-Markup", "li": "", "isNew": false}, {"name": "Siri Dahl", "role": "Adult film performer · sex workers' rights activist", "sector": "Sex worker / adult", "heat": "warm", "tags": ["8th Instagram account 2025", "Serial bans", "Named in Mashable"], "ev": "On her 8th Instagram account (@thesiridahlagain) as of 2025 per Mashable. Named as representative of the pattern of serial bans against adult creators.", "src": "P6-Mashable", "li": "", "isNew": false}, {"name": "Mary Pryor / Cannaclusive", "role": "Co-founder · equity-focused cannabis", "sector": "Cannabis", "heat": "warm", "tags": ["Account suspended", "POC cannabis gatekeeper"], "ev": "Cannaclusive Instagram suspended and restored. Leading voice for POC equity in cannabis.", "src": "P3", "li": "", "isNew": false}, {"name": "Puffco / Betsy Kabaker", "role": "Communications Manager", "sector": "Cannabis", "heat": "warm", "tags": ["Account banned Oct 2024", "Restored"], "ev": "Instagram account banned October 2024, restored. Advocates backup accounts as standard practice.", "src": "P3", "li": "", "isNew": false}, {"name": "Shot in the Dark", "role": "Harm reduction org · Phoenix AZ", "sector": "Harm reduction", "heat": "warm", "tags": ["Facebook posts removed", "Naloxone content"], "ev": "Facebook posts about naloxone removed. Restored after Vice/Motherboard contacted Meta.", "src": "P3", "li": "", "isNew": false}, {"name": "Southside Harm Reduction Services / Jack Martin", "role": "Executive Director · Minneapolis MN", "sector": "Harm reduction", "heat": "warm", "tags": ["Facebook removed", "Naloxone content"], "ev": "Facebook posts about naloxone removed. Largest syringe service program in Minnesota.", "src": "P3", "li": "", "isNew": false}, {"name": "Kory Mann", "role": "LA-based actress, independent filmmaker", "sector": "Creative / filmmaking", "heat": "warm", "tags": ["2.6M views demonetized", "TikTok 'low-quality reaction'", "Reversed after press contact"], "ev": "Short film with 2.6M views declared 'low-quality reaction content' and permanently disqualified from creator rewards. Restored only after Deadline contacted TikTok. Deadline May 29, 2026.", "src": "P6-Deadline", "li": "", "isNew": false}, {"name": "Hey Jane / Rebecca Davis", "role": "Head of Marketing · telehealth abortion", "sector": "Reproductive health", "heat": "warm", "tags": ["Prior suppression", "Named in AP"], "ev": "'We know firsthand that this suppression actively prevents Hey Jane from reaching people seeking timely healthcare information.'", "src": "P4", "li": "", "isNew": false}, {"name": "Jannine Versi / Elektra Health", "role": "Co-Founder & CEO · NY", "sector": "Femtech / maternal", "heat": "warm", "tags": ["Menopause telehealth", "$10M-$25M revenue"], "ev": "Partners with 25+ health plans. CIJ 2022 survey participant.", "src": "P2", "li": "linkedin.com/in/jannine-versi-a805357", "isNew": false}, {"name": "Dr. Aziza Sesay", "role": "Medical doctor, broadcaster · WHVA founding member", "sector": "Femtech / maternal", "heat": "warm", "tags": ["WHVA founding member", "'Women are dying of embarrassment'"], "ev": "'Women are dying of embarrassment because they're not coming forward about their problems due to shame, and when they present late, outcomes are poorer.'", "src": "P6-WHVA", "li": "", "isNew": false}, {"name": "Charlotte Walshe / Period Equity Alliance", "role": "WHVA founding member", "sector": "Femtech / maternal", "heat": "warm", "tags": ["WHVA founding member", "Period equity"], "ev": "Named WHVA founding member from Period Equity Alliance.", "src": "P6-WHVA", "li": "", "isNew": false}, {"name": "Dr. Caroline Are", "role": "Researcher · WHVA founding participant · algorithmic censorship author", "sector": "Femtech / maternal", "heat": "warm", "tags": ["WHVA founding academic", "Algorithmic censorship researcher"], "ev": "Named WHVA founding researcher. Published research on algorithmic censorship.", "src": "P6-WHVA", "li": "", "isNew": false}, {"name": "Anna Iovine", "role": "Associate Editor, Mashable", "sector": "Journalism", "heat": "media", "tags": ["Beat reporter", "April + May 2026 wave coverage"], "ev": "Primary journalist covering the April/May 2026 LGBTQ+/sexual wellness suppression wave.", "src": "P4", "li": "linkedin.com/in/annaiovine", "isNew": false}, {"name": "Jasmine Mithani", "role": "Tech & Data Reporter, The 19th", "sector": "Journalism", "heat": "media", "tags": ["Reproductive health suppression beat"], "ev": "Wrote January 2025 piece on Aid Access suppression.", "src": "P4", "li": "linkedin.com/in/jmithani", "isNew": false}, {"name": "URBAN STUDIO / demonetization.org", "role": "YouTube creator rights initiative · @urban_studio_yt", "sector": "YouTube / creative", "heat": "coal", "tags": ["Verified case database", "Petition growing", "DSA Article 17/20 framing", "Spring 2026 wave"], "ev": "Built a manually-verified case database and petition for YouTube creators wrongly demonetized under the spring 2026 'inauthentic content' AI enforcement wave. Animators, CG artists, vloggers, gaming streamers, educators caught in the sweep. The Repro Uncensored equivalent for YouTube creators. DSA-grounded demands.", "src": "P7-UrbanStudio", "li": "", "isNew": true}, {"name": "People Over Platforms", "role": "64,000+ signature petition · wrongful account disabling · cross-platform", "sector": "General / cross-platform", "heat": "coal", "tags": ["64,000+ signatures", "Verified signatory list", "Media coverage archive", "40+ named press cases"], "ev": "64,000+ signature petition (Change.org + own platform) for wrongful account disabling across Meta. Verified signatory list with individual names and comments. Media archive: 40+ named journalist investigations across CBS, NBC, ABC, BBC, CBC, 9News. Petitioner Jenny Morant (licensed real estate professional, Manhattan Beach CA, two accounts disabled April 22 2026) is the most recent named individual.", "src": "P7-PoP", "li": "", "isNew": true}, {"name": "OBSERVACOM / Digital Action", "role": "Carolina Martínez Elebi + Vladimir Cortés Roshdestvensky, authors · Latin America shadow banning report", "sector": "Latin America / digital rights", "heat": "coal", "tags": ["Definitive LATAM shadow ban report", "October 2025", "IFEX/Digital Action published"], "ev": "'Shadow Banning: The Subtle and Covert Censorship of the Major Tech Platforms' (October 2025). Named 8 case studies across LATAM. Published by OBSERVACOM with support from Digital Action. The definitive Spanish-language shadow banning research.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Mona Shtaya", "role": "Campaigns and Partnerships Manager MENA · Digital Action · Palestinian digital rights expert", "sector": "Palestine / MENA", "heat": "hot", "tags": ["90%+ reach reduction", "Nov 2023 shadow ban onset", "Red triangle emoji restricted", "Named in Observacom + The Intercept"], "ev": "20,000 Instagram followers. Selfie: 2,600 story views. Palestine critique: 200 views. 90%+ reach reduction from November 2023. Collaborated with 10M-follower accounts — still only 200 story views that week. Palestinian flag comments marked 'hidden comment.' Post warning about Palestinian flag emoji restrictions reported in The Intercept October 2024. Named in Observacom report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Sebastián Lacunza", "role": "Argentine journalist · X shadow ban documented", "sector": "Journalism / Argentina", "heat": "hot", "tags": ["Late 2022–Sep 2023 X shadow ban", "Excluded from search results", "Lifted within 48hrs of public tweet"], "ev": "Months-long X shadow ban: constant follower loss, minimal engagement, excluded from search results despite exact name queries (fake accounts appeared instead). Tweeted about it publicly — 'lifted within 48 hours.' Then had a post with 21,000 likes for the first time ever. Named in Observacom October 2025 report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "José David Morales Gómez / Chiapas Sin Censura", "role": "Founder & editor-in-chief · Mexican independent news outlet founded 2012", "sector": "Independent media / Mexico", "heat": "hot", "tags": ["100M→28M monthly views", "Facebook 'fraud' penalty", "No appeal response", "Self-censoring content"], "ev": "100M monthly views dropped to 28M after Facebook 'fraud' penalty for a post about a cancer patient asking Canelo Álvarez for charity. Post was real. No response to appeals within 4 business days as promised. Started avoiding covering violence, vulnerable children, organized crime to avoid further sanctions. Named in Observacom October 2025 report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Alesia Lund / @emmayyoperu", "role": "Sex education project creator · Peru · Instagram", "sector": "Sex education / Peru", "heat": "hot", "tags": ["68K followers", "15K–20K views → 300–500", "2 years of gradual invisibilization", "No notification received"], "ev": "@emmayyoperu: comprehensive sex education for 18–24-year-olds. 68,000 followers; posts dropped from 15,000–20,000 views to 300–500 over 2 years. No warning ever received. 'I've come close to throwing in the towel and saying to hell with it all.' Migrating to YouTube. Named in Observacom October 2025 report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Paola Díaz / @muypaola + @Stgoverde", "role": "Chilean cannabis activist · @muypaola + @Stgoverde", "sector": "Cannabis / Chile", "heat": "hot", "tags": ["Chile", "Constitutional protection claim filed", "Charged for Meta Verified while account disabled", "'Your account can't be shown'"], "ev": "Notification: 'Your account can't be shown to people who don't follow you.' Festive post: 70,000 views. Cannabis activism post: 5,300 views. Instagram deactivated @Stgoverde after biometric verification — then continued charging for Meta Verified subscription. Filed constitutional protection claim in Chile (rejected, under appeal). Reported to SERNAC. First domestic legal challenge to platform suppression in LATAM. Named in Observacom report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Cora Gamarnik", "role": "Doctor of Social Sciences / photojournalist · CONICET research associate · Argentina", "sector": "Journalism / Argentina", "heat": "hot", "tags": ["Facebook shadow ban Dec 2022", "Lago Escondido scandal post", "2,000+ likes → 13 likes", "Reach never recovered"], "ev": "Posted about Lago Escondido scandal (judges + Clarín Group). Facebook removed post for 'hate speech' despite it criticizing hateful messages, suspended account for days. Post-reinstatement: reach dropped from 2,000+ likes to 13 likes, 2 shares, 0 comments. Many followers thought she had stopped posting. Named in Observacom October 2025 report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Paula Labra / @lovelust.cl", "role": "Inclusive lingerie e-commerce · 240,000 Instagram followers · Chile", "sector": "Body-positive / Chile", "heat": "hot", "tags": ["Documented shadow ban on video", "$3K/month advertising throttled", "'I live in fear'", "Curvier women removed, thinner not"], "ev": "240,000 followers. Filmed a friend unable to find her account in search — documented the shadow ban on video. Investing $3,000/month in ads while reach was throttled. 'I live in fear. Before I fall asleep, I always pray that I don't lose the account.' Documented algorithmic discrimination by body type. Named in Observacom October 2025 report.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Younis Tirawi", "role": "Palestinian journalist · X", "sector": "Palestine / MENA", "heat": "hot", "tags": ["Nov 2024 X follow-block glitch", "Follower count fluctuating", "Decensored News documented", "Named in Observacom"], "ev": "November 2024: users couldn't follow his X account — button appeared to work but immediately reverted. Decensored News documented via screen recordings. X called it a 'technical issue.' Named in Observacom October 2025 report alongside @Palestinahoy01 who faced identical issue one month earlier.", "src": "P7-Observacom", "li": "", "isNew": true}, {"name": "Jenny Morant / Jenny Morant Group", "role": "Licensed real estate professional · Compass · Manhattan Beach CA", "sector": "Real estate / small business", "heat": "warm", "tags": ["Two accounts disabled Apr 22 2026", "No policy violations", "People Over Platforms petition"], "ev": "Two Instagram accounts abruptly disabled April 22, 2026 with no warning and no explanation. 'Just normal real estate and lifestyle content.' No nudity, no spam, no harassment. Named in People Over Platforms petition May 4, 2026.", "src": "P7-PoP", "li": "", "isNew": true}, {"name": "Kumar Nayan / @Nher_who", "role": "Bihar resident · X creator · Creator Revenue program member", "sector": "India government suppression", "heat": "hot", "tags": ["MeitY Section 69A order Mar 18 2026", "Delhi HC petition filed", "$6,336 earnings withheld", "Paid blue tick"], "ev": "One of 12 X accounts blocked by Indian government MeitY Section 69A order March 18, 2026. Paid for blue tick June 7, 2025. Earned $6,336.64 in Creator Revenue program — next payout withheld. Filed Delhi High Court writ petition challenging the order. Named in The Tech Trace April 2026.", "src": "P7-TechTrace", "li": "", "isNew": true}, {"name": "Prateek Sharma / @DrNimoYadav", "role": "X account holder · Delhi HC petition filed", "sector": "India government suppression", "heat": "hot", "tags": ["MeitY Section 69A order Mar 18 2026", "First Delhi HC challenge filed Mar 28", "Named in Tech Trace"], "ev": "One of 12 X accounts blocked by MeitY Section 69A order March 18, 2026. Filed first Delhi HC petition March 28. Named in The Tech Trace coverage of MeitY blocking order.", "src": "P7-TechTrace", "li": "", "isNew": true}, {"name": "Sandeep Singh / @ActivistSandeep", "role": "Dalit rights activist and journalist", "sector": "India government suppression", "heat": "hot", "tags": ["MeitY Section 69A order Mar 18 2026", "Dalit rights activist", "Voter ID submitted for hearing"], "ev": "Dalit rights activist and journalist. One of 12 X accounts blocked by MeitY Section 69A order March 18, 2026. Submitted voter card and Aadhaar to MeitY March 27 after receiving identity verification request. Received no response. Named in The Tech Trace April 2026.", "src": "P7-TechTrace", "li": "", "isNew": true}, {"name": "Abhijeet Dipke / Cockroach Janta Party", "role": "Founder · satirical political party · X account + website blocked", "sector": "India government suppression", "heat": "hot", "tags": ["Section 69A X account withheld", "Website blocked by MeitY", "Instagram hacked", "Delhi HC petition filed May 25 2026"], "ev": "Satirical Cockroach Janta Party went viral after launch. Within 10 days: X account withheld, website blocked, backup X account taken down, Instagram hacked. Filed Delhi HC petition May 25, 2026 challenging Section 69A blocking order. Named in Harro/The Tech Trace May 2026.", "src": "P7-TechTrace", "li": "", "isNew": true}, {"name": "Screen Culture", "role": "YouTube channel · 2M+ subscribers · 1B+ combined views", "sector": "YouTube / creative", "heat": "warm", "tags": ["Terminated by YouTube", "Fake AI movie trailers", "Deadline investigation", "1B+ views"], "ev": "YouTube terminated Screen Culture (and KH Studio) after Deadline investigation into fake AI movie trailer channels. Both had 2M+ subscribers and 1B+ combined views. Named in OutlierKit/Deadline 2026 investigation into the YouTube AI slop crackdown.", "src": "P7-OutlierKit", "li": "", "isNew": true}, {"name": "KH Studio", "role": "YouTube channel · 2M+ subscribers · 1B+ combined views", "sector": "YouTube / creative", "heat": "warm", "tags": ["Terminated by YouTube", "Fake AI movie trailers", "Deadline investigation"], "ev": "YouTube terminated KH Studio alongside Screen Culture after Deadline investigation. 2M+ subscribers, 1B+ combined views. Named in OutlierKit/Deadline 2026.", "src": "P7-OutlierKit", "li": "", "isNew": true}, {"name": "Joshua Aaron / ICEBlock / ALL U CHART INC.", "role": "Developer · ICEBlock iPhone app · EFF lawsuit plaintiff", "sector": "Immigration / political", "heat": "hot", "tags": ["ICEBlock app", "Aaron v. Bondi EFF lawsuit", "1M+ users", "Apple removed after AG threat"], "ev": "Created ICEBlock — iPhone app allowing public to report immigration enforcement. More than 1 million users. June 2025: high-ranking federal officials threatened to investigate and prosecute him. October 2025: AG Bondi demanded Apple remove it. Apple complied. EFF filed suit in US District Court DC: Aaron v. Bondi. Named defendants: US Attorney General, DHS Secretary, ICE Director, White House Border Czar.", "src": "P7-EFF", "li": "", "isNew": true}, {"name": "Stephanie Tillman / Repro TLC / Feminist Midwife LLC", "role": "LinkedIn account permanently banned · reproductive health advocate", "sector": "Reproductive health", "heat": "hot", "tags": ["LinkedIn permanent ban", "Repro TLC", "Feminist Midwife LLC", "Named in EFF StopCensoringAbortion"], "ev": "LinkedIn permanently banned her entire account with only a vague notice of User Agreement violation. LinkedIn refused to reveal what violation was committed: 'due to our Privacy Policy we are unable to release our findings.' Suspects ban related to work with Repro TLC and/or Feminist Midwife LLC posts. No path to restore. Named in EFF #StopCensoringAbortion findings series (October 2025).", "src": "P7-EFF", "li": "", "isNew": true}, {"name": "Jessica Valenti", "role": "Award-winning writer, activist · Abortion Every Day newsletter author", "sector": "Reproductive health", "heat": "warm", "tags": ["TikTok video removed", "IUDs + the Pill post", "Named in EFF #StopCensoringAbortion"], "ev": "TikTok removed her video about the Trump administration calling IUDs and the Pill 'abortifacients.' No further explanation provided. Named in EFF #StopCensoringAbortion findings series (October 2025).", "src": "P7-EFF", "li": "", "isNew": true}, {"name": "JRA / July Revolutionary Alliance", "role": "Bangladeshi community archivist group · 547,000 Facebook followers", "sector": "Bangladesh / political", "heat": "hot", "tags": ["547K followers suspended Feb 15 2026", "False copyright claims", "July 2024 uprising documentation", "Backup page also suspended"], "ev": "Main Facebook page (547,000 followers) suspended February 15, 2026 after coordinated false copyright claims from fake email accounts. Documented Bangladesh July 2024 People's Uprising. JRA backup page also suspended March 22, 2026. Coordinated actors: 'Network-71,' 'Crack Platoon, Bangladesh Cyber Force,' 'Dark Cyber Gang,' 'Qawmi Cyber Expert Team' publicly claimed responsibility. Named in Global Voices Advox May 2026.", "src": "P7-GlobalVoices", "li": "", "isNew": true}, {"name": "The Red July / Sajib Hossain", "role": "Bangladeshi community archivist group · Sajib Hossain, administrator", "sector": "Bangladesh / political", "heat": "hot", "tags": ["Two pages suspended", "300K + 125K followers", "8–10 simultaneous copyright strikes", "False claims from fake emails"], "ev": "Two primary Facebook pages (300,000 followers + 125,000 followers named 'The Red July Production') simultaneously received 8–10 copyright strikes and were suspended. Sajib Hossain named as administrator. Also documenting Bangladesh July 2024 uprising. Named in Global Voices Advox May 2026.", "src": "P7-GlobalVoices", "li": "", "isNew": true}, {"name": "The Dissent / Qadaruddin Shishir", "role": "Bangladesh investigative and fact-checking platform · editor named", "sector": "Bangladesh / political", "heat": "hot", "tags": ["False copyright claims", "Fact-checks removed", "Editor Qadaruddin Shishir named", "Meta accepts unverified claims"], "ev": "Editor Qadaruddin Shishir: several reports and fact-checks removed from Facebook after false copyright claims from unverifiable email addresses. Content originally produced by their own reporters. Named in Global Voices Advox May 2026.", "src": "P7-GlobalVoices", "li": "", "isNew": true}, {"name": "User Rights GmbH", "role": "First DSA-certified dispute settlement body in Germany · Dr. Niklas Eder, Co-Founder", "sector": "EU regulatory", "heat": "coal", "tags": ["84% moderation decisions overturned", "8,749 submissions", "Meta only 4–7% implementation rate", "Germany DSA Article 21"], "ev": "Germany's first Article 21 DSA-certified out-of-court dispute settlement body. 2025 Transparency Report: 84% of completed proceedings found original platform decision unfounded. At TikTok: 69% of complainants achieved desired outcome. At Meta (Instagram/Facebook): under 7% and 4% respectively. 8,749 submissions across TikTok, Instagram, Facebook, LinkedIn, Pinterest. Contact: Dr. Niklas Eder, presse@user-rights.org.", "src": "P7-UserRights", "li": "", "isNew": true}, {"name": "ARTICLE 19 #MissingVoices", "role": "International freedom of expression NGO · named case database Palestine to Kenya", "sector": "Global digital rights", "heat": "coal", "tags": ["Named case database", "Palestine to Kenya", "Platform accountability advocacy"], "ev": "#MissingVoices campaign: curated database of activists and human rights defenders whose content was removed from Facebook, X, and YouTube. Cases documented from Palestine to Kenya. Demands: notification of takedowns, right to appeal, transparent data publication. Don't Delete Art virtual gallery of banned/restricted works.", "src": "P7-Article19", "li": "", "isNew": true}, {"name": "AuditSocials / auditsocials.com", "role": "EU DSA Transparency Database analytics platform", "sector": "EU regulatory / intelligence", "heat": "coal", "tags": ["Daily enforcement tracker", "299M actions Q1 2026", "Policy change alerts", "8 platforms"], "ev": "Daily tracker of EU DSA Transparency Database enforcement actions across 8 major platforms. Q1 2026: 299M enforcement actions. 95.9M account suspensions. 24.4M account terminations. 7.4M visibility demotions (the 'silent throttling layer'). Policy scanner reads all 8 platforms daily, flags changes 3–10 days before enforcement waves. Commercial intelligence product directly applicable to Aloha's Prohibited Content Vocabulary List and Suppression Baseline IP.", "src": "P7-AuditSocials", "li": "", "isNew": true}, {"name": "Unity@KitKat", "role": "Berlin party series associated with KitKatClub", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["March 2026 wave", "Instagram suspended", "Named by Insomnia Berlin"], "ev": "Instagram account suspended in the same March 2026 wave as KitKatClub and Insomnia Berlin. Named by Insomnia director Dominique in rbb24 interview: 'From conversations within the sex-positive club scene, I know that the Instagram accounts of the Unity@KitKat party series as well as Catonium Hamburg were also suspended.'", "src": "P8-rbb24", "li": "", "isNew": true}, {"name": "Catonium Hamburg", "role": "Hamburg sex-positive club", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["March 2026 wave", "Instagram suspended", "Named by Insomnia Berlin"], "ev": "Instagram account suspended in the same March 2026 wave as KitKatClub and Insomnia Berlin. Named by Insomnia director Dominique in rbb24 interview, confirmed in taz and Tagesspiegel reporting.", "src": "P8-rbb24", "li": "", "isNew": true}, {"name": "Forensics Paris", "role": "Paris queer collective or party series", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["Oct 2025 wave", "Paris", "Tagesspiegel named"], "ev": "Named in Tagesspiegel April 2, 2026: 'In October last year, the Tagesspiegel Queerspiegel newsletter reported that Meta had deactivated accounts of organizers of sex-positive and queer parties across Europe. In Berlin this affected the Gegen Berlin account. In Paris, several accounts were suspended, including Forensics Paris.'", "src": "P8-Tagesspiegel", "li": "", "isNew": true}, {"name": "NURBÖSE", "role": "Berlin kinky events collective", "sector": "LGBTQ+ nightlife", "heat": "warm", "tags": ["18K followers deleted", "Account confirmed", "Instagram comments"], "ev": "Commented publicly on Instagram under journalist Cristina Plett's reporting: 'Our account was also deleted last year at 18K followers. Since then we notice a clear difference. Especially for kinky events it's very difficult to find a good platform.' Confirmed deletion of 18,000-follower account.", "src": "P8-FazeMag", "li": "", "isNew": true}, {"name": "Jan Mönikes", "role": "Berlin media and copyright lawyer · attorney for KitKatClub and Insomnia", "sector": "EU regulatory / legal", "heat": "coal", "tags": ["DSA legal expert", "German law commentary", "KitKatClub + Insomnia attorney"], "ev": "Berlin specialist attorney for copyright and media law. Retained by KitKatClub and Insomnia for account suspension dispute. Quoted across rbb24, Berliner Zeitung, Berliner Kurier: 'It is absolutely possible to demand the cessation of an unlawful block under German law, provided the conditions for doing so are met.' Also: 'If the clubs complied with the guidelines as they explained to rbb24, the suspension already appears very arbitrary.' Key German DSA legal practitioner and prospect for coalition.", "src": "P8-rbb24", "li": "", "isNew": true}, {"name": "Samuel King / Tillatec", "role": "Director, Tillatec · Amsterdam LGBTQ+ nightclub · 40,000 Instagram followers", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["40K followers permanently deleted", "Shadowban on restoration", "Named NRC + NOS", "DSA legal action client"], "ev": "40,000 followers permanently deleted without warning or explanation. 'I was going insane. 40,000 followers were gone in one go. You feel it directly in your revenue and ticket sales.' On restoration: still shadowbanned — 'We're hard to find.' Meta even confirmed they had not violated any guidelines after the deletion. Named in NRC and NOS reporting. Client in Bureau Brandeis DSA legal action.", "src": "P8-NOS", "li": "", "isNew": true}, {"name": "Jackie van Gemert / The Queer Agenda", "role": "Founder · The Queer Agenda · Amsterdam · 11,000 followers", "sector": "LGBTQ+", "heat": "hot", "tags": ["Deleted twice: Oct 2025 + Apr 2026", "'Promoting human trafficking for sexual purposes'", "Named NOS + NRC", "DSA legal action client"], "ev": "Instagram deleted twice — October 2025 and April 2026 — without warning. Automated system flagged The Queer Agenda for 'promoting human trafficking for sexual purposes.' 'You suddenly lose your work and access to your community.' Screenshot she shared with NOS showed the automated violation flag. Client in Bureau Brandeis DSA legal action.", "src": "P8-NOS", "li": "", "isNew": true}, {"name": "Caspar Pisters", "role": "Social media manager · Club Church, The Queer Agenda + other Amsterdam queer collectives", "sector": "LGBTQ+", "heat": "hot", "tags": ["Club Church deleted 3 times", "Named NRC + NOS", "Key DSA legal action spokesperson"], "ev": "Manages social media for multiple Amsterdam queer collectives including Club Church. Club Church has been deleted three times. 'According to their own system, the sauna was doing nothing wrong. Instagram uses color codes that indicate whether content is against the guidelines. The sauna was always green.' Quoted as primary spokesperson in NRC and NOS coverage of the Bureau Brandeis DSA legal action. 'It feels like it could happen again tomorrow. It was pure arbitrariness.'", "src": "P8-NRC", "li": "", "isNew": true}, {"name": "Jan Hoek / No Limits! Art Castle", "role": "Artist and founder · inclusive art space Amsterdam", "sector": "LGBTQ+ / creative", "heat": "hot", "tags": ["8 accounts blocked", "'Hooker' in exhibition post", "Partially restored, partially permanently deleted", "Bruce LaBruce collaboration"], "ev": "All 8 accounts blocked after one post using the word 'hooker' for an art exhibition — made in collaboration with queer filmmaker Bruce LaBruce. Part of accounts restored after appeal; others permanently deleted. 'It seems completely arbitrary when it does and doesn't happen.' Named in NOS April 23, 2026.", "src": "P8-NOS", "li": "", "isNew": true}, {"name": "Bruce LaBruce", "role": "Canadian queer filmmaker · 135,000 Instagram followers", "sector": "LGBTQ+ / creative", "heat": "hot", "tags": ["135K followers permanently deleted", "Exhibition collaboration post", "Named NOS"], "ev": "135,000 Instagram followers permanently deleted after co-creating an art exhibition post with Jan Hoek / No Limits! Art Castle that contained the word 'hooker.' 'He lost his entire follower base' (Jan Hoek, quoted in NOS). Named in NOS April 23, 2026. Previously confirmed in the register as @brucelabruce in the 70+ accounts wave list — now has full named identity attached.", "src": "P8-NOS", "li": "", "isNew": true}, {"name": "Dr. Masuma Shahid", "role": "Legal scholar and university lecturer · queer law and AI · Netherlands", "sector": "EU regulatory / academic", "heat": "coal", "tags": ["Named NRC + NOS expert", "'Cleansing of queer accounts'", "DSA enforcement authority"], "ev": "'This looks like a cleansing of queer accounts.' 'Everyone has the right of access to digital platforms, regardless of sexual preference. If certain groups are structurally harder hit, that must be seriously investigated.' EU law expert on platform discrimination under DSA. Named as primary academic expert in both NRC and NOS coverage of the Bureau Brandeis legal action.", "src": "P8-NRC", "li": "", "isNew": true}, {"name": "Kim Sparrentak", "role": "GroenLinks-PvdA MEP · European Parliament member · Netherlands", "sector": "EU regulatory / political", "heat": "coal", "tags": ["MEP named", "'Direct attack on democratic freedoms'", "EU Parliament voice"], "ev": "'This is a direct attack on our democratic freedoms and our online public debate.' Quoted in NOS April 23, 2026 coverage of the Dutch queer account suspensions. European Parliament voice for DSA enforcement against Meta.", "src": "P8-NOS", "li": "", "isNew": true}, {"name": "Striptopia", "role": "Confirmed named client in Bureau Brandeis DSA legal action", "sector": "LGBTQ+", "heat": "hot", "tags": ["DSA legal action client", "Bureau Brandeis named", "Nov 2025 wave + Apr 2026"], "ev": "Confirmed named client in Bureau Brandeis DSA legal action against Meta (WInq.nl May 21, 2026). Previously in register as @striptopia from the November 2025 queer wave. Bureau Brandeis letter also names: Club Church, The Queer Agenda, COC Nederland, Bits of Freedom, Repro Uncensored, Tillatec, BUTT Magazine, Sauna Nieuwezijds, Free Willie Amsterdam, Striptopia, No Limits! Art Castle.", "src": "P8-Winq", "li": "", "isNew": true}, {"name": "Pauline Dens-Arsène", "role": "French midwife · Marly-Gomont, Aisne · abortion access practitioner", "sector": "Reproductive health", "heat": "hot", "tags": ["Facebook + Instagram deleted Oct 28 2025", "France 3 abortion report", "French Minister Aurore Bergé intervened", "Named France 3 + L'Humanité"], "ev": "Facebook and Instagram suspended October 28, 2025 — 30 minutes after she shared a France 3 Picardie report on abortion access in the Thiérache region where she provides abortions (one of the few midwives in the Aisne doing so). Appeal: accounts permanently deleted with only 'Community Standards' cited. French Minister for Women's Rights Aurore Bergé personally contacted Meta France. Meta apologized and restored accounts, citing error. One month of restrictions remained. Named in France 3 Picardie + L'Humanité November 2025.", "src": "P8-France3", "li": "", "isNew": true}, {"name": "Planning familial de l'Orne", "role": "Family planning association · Orne department, France", "sector": "Reproductive health", "heat": "warm", "tags": ["Instagram deleted 2023", "No reinstatement", "Had to create new account"], "ev": "Instagram account deleted without warning in 2023, suspected mass-reporting campaign by anti-abortion groups. Despite mobilization for reinstatement, Meta did not restore the account — had to create a new one. Named in France 3 Picardie article on the Pauline Dens-Arsène case (November 2025).", "src": "P8-France3", "li": "", "isNew": true}, {"name": "TILLATEC Amsterdam", "role": "Amsterdam LGBTQ+ nightclub · 40,000 followers · Samuel King, Director", "sector": "LGBTQ+ nightlife", "heat": "hot", "tags": ["40K followers permanently deleted", "French press named", "Also NOS + NRC"], "ev": "Named in French-language boutique-lgbtqia.fr May 2026 as one of the Amsterdam clubs affected. Also named in NOS and NRC as the primary named case with Samuel King as director. Already confirmed above via Dutch press but cross-confirmed in French and Spanish press.", "src": "P8-France3", "li": "", "isNew": false}, {"name": "Sleeping Giants Brasil / Humberto Ribeiro", "role": "Hate speech monitoring organization · Director Humberto Ribeiro", "sector": "Brazil / LGBTQ+", "heat": "coal", "tags": ["Notified Meta extrajudicially", "1.7M followers affected", "Brazilian MPF inquiry", "Key Brazilian coalition gatekeeper"], "ev": "Identified removal of 5 Brazilian LGBTQ+ pages (1.7M combined followers) on May 16-17, 2026 — International Day Against LGBTphobia. Sent extrajudicial notification to Meta on May 18. Meta restored part of the pages on May 19 after Folha de S.Paulo contact. 'It is a scandal that a year after Meta began authorizing the dissemination of hate content, the company now censors some of the most important LGBTI+ voices in Brazil.' Gateway to Brazilian civil society digital rights sector.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Pheeno", "role": "Brazilian LGBTQ+ page · 200,000 Instagram followers", "sector": "Brazil / LGBTQ+", "heat": "hot", "tags": ["200K followers deleted", "May 16-17 2026", "Brazil International LGBTphobia Day wave"], "ev": "One of five Brazilian LGBTQ+ Instagram pages simultaneously deleted May 16-17, 2026 (International Day Against LGBTphobia). 200,000 followers. Named in Sleeping Giants Brasil extrajudicial notification and Folha de S.Paulo investigation.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Universo LGBTI", "role": "Brazilian LGBTQ+ page · 500,000 Instagram followers", "sector": "Brazil / LGBTQ+", "heat": "hot", "tags": ["500K followers deleted", "May 16-17 2026", "Brazil International LGBTphobia Day wave"], "ev": "One of five Brazilian LGBTQ+ pages simultaneously deleted May 16-17, 2026. 500,000 followers. Named in Sleeping Giants Brasil notification and Folha de S.Paulo.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Ezatamentchy", "role": "Brazilian LGBTQ+ page · 500,000 Instagram followers", "sector": "Brazil / LGBTQ+", "heat": "hot", "tags": ["500K followers deleted", "May 16-17 2026", "Brazil International LGBTphobia Day wave"], "ev": "One of five Brazilian LGBTQ+ pages simultaneously deleted May 16-17, 2026. 500,000 followers. Named in Sleeping Giants Brasil notification and Folha de S.Paulo.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "GayBlogBr / Vinícius Yamada", "role": "Brazilian LGBTQ+ journalism portal · Vinícius Yamada, editor-in-chief · 212,000 followers", "sector": "Brazil / LGBTQ+", "heat": "hot", "tags": ["212K followers deleted", "May 16 2026", "Editor named", "Restored during Folha interview"], "ev": "Editor-in-chief Vinícius Yamada (age 44) noticed deletion morning of May 16, 2026 while preparing Shakira concert coverage. Instagram requested facial recognition, then 2 days later sent permanent disablement email — no specific rule cited. Account @gayblogbr restored during a Folha de S.Paulo interview (reporter contacted Meta during the call). Publishes content on human rights, sexuality, and representation.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Comunidades LGBTQIA", "role": "Brazilian LGBTQ+ community page · 330,000 Instagram followers", "sector": "Brazil / LGBTQ+", "heat": "hot", "tags": ["330K followers deleted", "May 16-17 2026", "Brazil International LGBTphobia Day wave"], "ev": "One of five Brazilian LGBTQ+ pages simultaneously deleted May 16-17, 2026. 330,000 followers. Named in Sleeping Giants Brasil notification and Folha de S.Paulo.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Erika Hilton", "role": "Federal deputy (PSOL-SP) · trans politician · 256,903 votes · Brazil", "sector": "Brazil / LGBTQ+ / political", "heat": "coal", "tags": ["Named Meta directly", "Brazil federal deputy", "Trans politician", "'Systematic erasure'"], "ev": "Trans federal deputy, São Paulo state (PSOL). Publicly called out Meta over the May 2026 deletions: 'It is inadmissible that, precisely in the week of the fight against LGBTphobia and on the eve of Pride Month, Meta promotes a systematic erasure of pages that inform, defend and support our community.' Sent formal letter with São Paulo city councilwoman Amanda Paschoal to Meta demanding restoration. Meta restored accounts after her public denunciation. Key Brazilian political ally for Aloha's LATAM regulatory track.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Amanda Paschoal", "role": "PSOL city councilwoman · São Paulo · co-signed Meta letter with Erika Hilton", "sector": "Brazil / LGBTQ+ / political", "heat": "coal", "tags": ["São Paulo councilwoman", "Co-signed Meta letter", "Brazil coalition"], "ev": "São Paulo city councilwoman (PSOL). Co-signed with Erika Hilton the formal letter to Meta demanding immediate restoration of LGBTQ+ accounts and explanation of moderation criteria. Named in GayBlogBr and Observatório G coverage.", "src": "P8-Folha", "li": "", "isNew": true}, {"name": "Al-Haq", "role": "Palestinian human rights organization · legal research and advocacy", "sector": "Palestine / MENA", "heat": "hot", "tags": ["YouTube channel permanently deleted", "700+ videos documenting war crimes", "Named in 7amleh Hashtag Palestine 2025"], "ev": "YouTube permanently deleted Al-Haq's channel alongside Al Mezan and PCHR — removing over 700 videos documenting alleged war crimes. Described by 7amleh as 'erasure of evidentiary material' undermining access to truth and accountability. Named in 7amleh Hashtag Palestine 2025 report (February 18, 2026). Israeli government pressure channeled through U.S.-based tech companies documented as the mechanism.", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "Al Mezan Center for Human Rights", "role": "Palestinian human rights organization · Gaza", "sector": "Palestine / MENA", "heat": "hot", "tags": ["YouTube channel permanently deleted", "War crimes documentation deleted", "Named in 7amleh Hashtag Palestine 2025"], "ev": "YouTube permanently deleted Al Mezan's channel alongside Al-Haq and PCHR — part of a documented pattern of government-pressured deletion of Palestinian human rights documentation. Al Mezan focuses on Gaza-based human rights monitoring. Named in 7amleh Hashtag Palestine 2025 report (February 18, 2026).", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "Palestinian Centre for Human Rights (PCHR)", "role": "Palestinian human rights organization · Gaza", "sector": "Palestine / MENA", "heat": "hot", "tags": ["YouTube channel permanently deleted", "War crimes documentation deleted", "Named in 7amleh Hashtag Palestine 2025"], "ev": "YouTube permanently deleted PCHR's channel alongside Al-Haq and Al Mezan — over 700 videos documenting alleged war crimes erased across all three organizations. Named in 7amleh Hashtag Palestine 2025 report (February 18, 2026). DropSite leak confirmed 90,000+ content takedowns linked to direct coordination between Israeli authorities and Meta across 60 countries.", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "7or — Palestinian Digital Rights Observatory", "role": "Real-time Palestinian digital rights violation tracker · 7amleh", "sector": "Palestine / MENA", "heat": "coal", "tags": ["Real-time violation tracker", "3,465 violations documented 2025", "Public reporting platform", "Arabic + English"], "ev": "7amleh's live reporting platform for Palestinian digital rights violations. Documented 3,465 digital rights violations in 2025 alone. Tracks: censorship, violent content, digital economy platform violations, account suspensions, shadow banning. Public dashboard at 7or.7amleh.org/charts. Key resource for Aloha's Peer Channel Monitoring IP — live feed of Palestinian content suppression. Integrates: Facebook, X, TikTok, YouTube, WhatsApp, Snapchat, Instagram, Bluesky, Telegram, Signal, PayPal.", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "GoFundMe — Gaza fundraising blocks", "role": "Crowdfunding platform blocking Gaza humanitarian campaigns", "sector": "Palestine / MENA", "heat": "hot", "tags": ["Fundraising blocked", "Gaza humanitarian aid", "22,000 public letters submitted", "7amleh campaign"], "ev": "7amleh documented GoFundMe blocking or freezing humanitarian fundraising campaigns linked to Gaza, preventing people from accessing medical care, emergency supplies, and life-saving support. 7amleh launched a joint statement campaign with over 50 international and local partners in July 2025 — over 22,000 public letters submitted urging GoFundMe to reverse deplatforming practices. Represents the 'digital economy platform' suppression track distinct from content moderation.", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "Dr. Fabio Cristiano / Utrecht University", "role": "Researcher · 'Platformicide of Palestine (2021–2025)' · Utrecht University", "sector": "Palestine / MENA", "heat": "coal", "tags": ["Platformicide of Palestine research", "7amleh partnership", "Dataset-driven analysis 2021–2025"], "ev": "Co-developed 'The Platformicide of Palestine (2021–2025)' with 7amleh — dataset-driven analysis of Meta's censorship of Palestinian content across 2021–2025, drawing on thousands of documented cases from the 7or Observatory. Key academic authority for the Palestine/MENA sector. Contact via Utrecht University, Contesting Governance Platform.", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "Voidly Atlas / voidly.ai", "role": "Real-time censorship intelligence API · 36M+ OONI measurements · CC BY 4.0", "sector": "EU regulatory / intelligence", "heat": "coal", "tags": ["Free public API no auth", "36M+ measurements", "5,356 citable incidents", "27-tool MCP server", "CC BY 4.0"], "ev": "Real-time global censorship detection API. 36M+ multi-source measurements (OONI, IODA, CensoredPlanet, Citizen Lab) across 200 countries. 5,356 citable incidents with permanent IDs. Free CC BY 4.0 API — no authentication required for public reads. 27-tool MCP server for AI agents. Topics filter: women-health, news, circumvention, multimedia. MCP server available via: npx @voidly/mcp-server. Live at: api.voidly.ai/data/censorship-index.json. Directly addable to the register's live fetch infrastructure alongside Repro Uncensored.", "src": "P9-Voidly", "li": "", "isNew": true}, {"name": "7or Palestinian Digital Rights Observatory API", "role": "Real-time Palestinian digital rights violation tracker · public dashboard", "sector": "Palestine / MENA", "heat": "coal", "tags": ["Public dashboard 7or.7amleh.org", "Real-time tracking", "3,465 violations 2025", "Arabic + English"], "ev": "Public dashboard at 7or.7amleh.org/charts tracks all Palestinian digital rights violations in real time. Filter by platform (Facebook, X, TikTok, YouTube, WhatsApp, Snapchat, Instagram, Bluesky, Telegram, Signal, PayPal), violation type (censorship, hate speech, incitement, hacking, gender-based violence, arrest), target (journalist, human rights defender, activist, LGBTQ+), and content type. Directly addable to the register's live fetch infrastructure as a second source alongside Repro Uncensored.", "src": "P9-7amleh", "li": "", "isNew": true}, {"name": "EFF TOSsed Out database", "role": "EFF's ongoing content takedown and account deactivation tracker", "sector": "Global digital rights", "heat": "coal", "tags": ["Ongoing tracker", "EFF.org/tossedout", "Named cases across political spectrum", "Since 2016"], "ev": "EFF's ongoing tracking initiative for social media content takedowns and account deactivations. At eff.org/tossedout. Active named cases include: The Vulva Gallery / Hilde Atalanta (creator; accepts body photos, recreates as paintings to comply — still deleted), Syrian Archive (conflict documentation on YouTube — key evidence erasure case), Jen and Sylvia Soska / The Soska Sisters (horror filmmakers, 50K Twitter followers, suspended 2019 post-film release). Cross-political-spectrum cases. Directly relevant to Aloha's suppression documentation IP.", "src": "P9-EFF", "li": "", "isNew": true}, {"name": "OONI — Open Observatory of Network Interference", "role": "Open-source internet censorship measurement tool · CC BY 4.0 data", "sector": "EU regulatory / intelligence", "heat": "coal", "tags": ["36M+ measurements upstream", "Public API", "Network interference detection", "CC BY 4.0"], "ev": "The upstream data source for Voidly Atlas. Free, open-source network interference measurement. Tests website and app blocking across 200+ countries. Data at api.ooni.io — CC BY 4.0. Not a named-account tracker (measures network-level blocking, not platform-level suppression) but is the foundational measurement infrastructure underpinning every censorship database in the register. Relevant to Aloha's international regulatory track for government-directed suppression cases (India Section 69A, UAE/Saudi Arabia government requests to Meta).", "src": "P9-OONI", "li": "", "isNew": true}];
+let allIncidents = [];
+let activeFilter = 'all';
+let searchTerm = '';
 
-// Populate sector filter
-const sectors = [...new Set(DATA.map(d => d.sector))].sort();
-const sf = document.getElementById('sector-filter');
-sectors.forEach(s => {
-  const o = document.createElement('option');
-  o.value = s; o.textContent = s;
-  sf.appendChild(o);
+async function load() {
+  try {
+    const r = await fetch('/api/dashboard');
+    const d = await r.json();
+    allIncidents = d.cases || [];
+    document.getElementById('total-badge').textContent = allIncidents.length;
+    render();
+  } catch (e) {
+    document.getElementById('grid').innerHTML = '<div class="empty">Unable to load incidents. Check the API.</div>';
+  }
+}
+
+function isCoalition(inc) {
+  const combined = (inc.sector + ' ' + (inc.tags || []).join(' ')).toLowerCase();
+  return combined.includes('systemic') || combined.includes('coalition') || combined.includes('government') || combined.includes('congress');
+}
+
+function render() {
+  const grid = document.getElementById('grid');
+  let filtered = allIncidents.filter(inc => {
+    if (activeFilter === 'hot') return inc.heat === 'hot';
+    if (activeFilter === 'warm') return inc.heat === 'warm';
+    if (activeFilter === 'coalition') return isCoalition(inc);
+    return true;
+  });
+
+  if (searchTerm) {
+    const s = searchTerm.toLowerCase();
+    filtered = filtered.filter(inc =>
+      (inc.title||'').toLowerCase().includes(s) ||
+      (inc.org||'').toLowerCase().includes(s) ||
+      (inc.platform||'').toLowerCase().includes(s) ||
+      (inc.sector||'').toLowerCase().includes(s) ||
+      (inc.summary||'').toLowerCase().includes(s) ||
+      (inc.tags||[]).some(t => t.toLowerCase().includes(s))
+    );
+  }
+
+  document.getElementById('total-badge').textContent = filtered.length + ' of ' + allIncidents.length;
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty">No incidents match your search.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(inc => {
+    const heatClass = inc.heat === 'hot' ? 'heat-hot' : 'heat-warm';
+    const heatLabel = inc.heat === 'hot' ? 'HOT' : 'WARM';
+    const tags = (inc.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+    const date = inc.date ? new Date(inc.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+    const sourceLink = inc.sourceUrl
+      ? `<a href="${inc.sourceUrl}" target="_blank" rel="noopener">↗ ${inc.source || 'Source'}</a>`
+      : (inc.source || '');
+
+    return `
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <div class="card-title">${escHtml(inc.title || '')}</div>
+          <div class="card-org">${escHtml(inc.org || '')}</div>
+        </div>
+        <span class="heat-tag ${heatClass}">${heatLabel}</span>
+      </div>
+      <div class="card-meta">
+        ${inc.platform ? `<span class="meta-pill">${escHtml(inc.platform)}</span>` : ''}
+        ${inc.sector ? `<span class="meta-pill">${escHtml(inc.sector)}</span>` : ''}
+        ${date ? `<span class="meta-pill">${date}</span>` : ''}
+      </div>
+      ${inc.summary ? `<div class="card-summary">${escHtml(inc.summary)}</div>` : ''}
+      ${inc.evidence ? `<div class="card-evidence">${escHtml(inc.evidence)}</div>` : ''}
+      ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+      ${sourceLink ? `<div class="card-source">${sourceLink}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+    activeFilter = btn.dataset.filter;
+    render();
+  });
 });
 
-function heatLabel(h) {
-  const map = { hot: 'Hot', warm: 'Warm', coal: 'Coalition' };
-  return map[h] || h;
-}
+document.getElementById('search-input').addEventListener('input', e => {
+  searchTerm = e.target.value.trim();
+  render();
+});
 
-function renderTable(data) {
-  const tbody = document.getElementById('table-body');
-  const noRes = document.getElementById('no-results');
-  document.getElementById('result-count').textContent = data.length + ' of ' + DATA.length + ' entries';
-  document.getElementById('stat-entries').textContent = DATA.length;
-
-  if (data.length === 0) {
-    tbody.innerHTML = '';
-    noRes.style.display = 'block';
-    return;
-  }
-  noRes.style.display = 'none';
-
-  tbody.innerHTML = data.map(e => `
-    <tr class="${e.isNew ? 'is-new' : ''}">
-      <td data-label="Name">
-        <div class="td-name">${e.name}${e.isNew ? ' <span class="tag new-tag" style="font-size:10px;padding:1px 5px;border-radius:2px;background:#fff3cd;color:#856404;margin-left:4px">New</span>' : ''}</div>
-        <div class="td-role">${e.role}</div>
-        ${e.li ? `<div class="td-li" style="margin-top:4px"><a href="https://${e.li}" target="_blank" rel="noopener">LinkedIn &rarr;</a></div>` : ''}
-      </td>
-      <td data-label="Sector"><span class="sector-badge">${e.sector}</span></td>
-      <td data-label="Heat">
-        <span class="heat ${e.heat}">
-          <span class="heat-dot"></span>${heatLabel(e.heat)}
-        </span>
-      </td>
-      <td data-label="Evidence"><div class="ev-text">${e.ev}</div></td>
-      <td data-label="Tags">
-        <div class="tags">${e.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function filter() {
-  const q = document.getElementById('search').value.toLowerCase();
-  const sec = document.getElementById('sector-filter').value;
-  const heat = document.getElementById('heat-filter').value;
-  const filtered = DATA.filter(e => {
-    const matchQ = !q || [e.name, e.role, e.sector, e.ev, ...e.tags].join(' ').toLowerCase().includes(q);
-    const matchS = !sec || e.sector === sec;
-    const matchH = !heat || e.heat === heat;
-    return matchQ && matchS && matchH;
-  });
-  renderTable(filtered);
-}
-
-document.getElementById('search').addEventListener('input', filter);
-document.getElementById('sector-filter').addEventListener('change', filter);
-document.getElementById('heat-filter').addEventListener('change', filter);
-renderTable(DATA);
-
-// MODAL
-function openModal() { document.getElementById('modal-overlay').classList.add('open'); }
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.getElementById('modal-form-state').style.display = 'block';
-  document.getElementById('modal-success-state').style.display = 'none';
-  document.getElementById('lead-email').value = '';
-  document.getElementById('lead-name').value = '';
-  document.getElementById('lead-message').value = '';
-  document.getElementById('lead-type').value = '';
-  document.getElementById('lead-error').style.display = 'none';
-  document.getElementById('submit-btn').disabled = false;
-  document.getElementById('submit-btn').textContent = 'Submit';
-}
-function closeModalOnOverlay(e) { if (e.target === e.currentTarget) closeModal(); }
-
-function handleContactArch() {
-  const email = 'collins.ra@northeastern.edu';
-  const btn = document.getElementById('contact-arch-btn');
-  const label = document.getElementById('contact-arch-label');
-  // Copy to clipboard
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(email).catch(() => {});
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = email;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  }
-  // Open mail client
-  window.location.href = 'mailto:' + email + '?subject=Platform%20Suppression%20Register&body=Hi%20RN%2C%0A%0AI%20came%20across%20the%20Platform%20Suppression%20Register%20and%20wanted%20to%20reach%20out.';
-  // Show confirmation
-  const original = label.textContent;
-  label.textContent = '✓ Copied: ' + email;
-  btn.style.borderColor = '#5ecfba';
-  btn.style.color = '#5ecfba';
-  setTimeout(() => {
-    label.textContent = original;
-    btn.style.borderColor = '';
-    btn.style.color = '';
-  }, 2500);
-}
-
-function toggleOther(val) {
-  const f = document.getElementById('other-field');
-  f.style.display = val === 'Other' ? 'block' : 'none';
-  if (val !== 'Other') document.getElementById('lead-other').value = '';
-}
-
-async function submitLead() {
-  const email = document.getElementById('lead-email').value.trim();
-  const name = document.getElementById('lead-name').value.trim();
-  const message = document.getElementById('lead-message').value.trim();
-  const type = document.getElementById('lead-type').value;
-  const errEl = document.getElementById('lead-error');
-  const btn = document.getElementById('submit-btn');
-
-  if (!email || !email.includes('@')) {
-    errEl.textContent = 'Please enter a valid email address.';
-    errEl.style.display = 'block';
-    return;
-  }
-  errEl.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'Submitting…';
-
+async function submitCTA() {
+  const email = document.getElementById('cta-email').value.trim();
+  if (!email) return;
   try {
-    const otherText = document.getElementById('lead-other').value.trim();
-    const finalType = type === 'Other' && otherText ? 'Other: ' + otherText : type;
-    const res = await fetch('/api/lead', {
+    await fetch('/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name, message: message + (finalType ? ' [' + finalType + ']' : ''), source: 'platform-suppression' })
+      body: JSON.stringify({ email, source: 'suppression-sweep', url: window.location.href }),
     });
-    if (!res.ok) throw new Error('Server error');
-    document.getElementById('modal-form-state').style.display = 'none';
-    document.getElementById('modal-success-state').style.display = 'block';
-  } catch {
-    btn.disabled = false;
-    btn.textContent = 'Submit';
-    errEl.textContent = 'Something went wrong. Please email collins.ra@northeastern.edu directly.';
-    errEl.style.display = 'block';
-  }
+  } catch(e) {}
+  document.getElementById('cta-msg').style.display = 'block';
+  document.getElementById('cta-email').value = '';
 }
+
+load();
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
