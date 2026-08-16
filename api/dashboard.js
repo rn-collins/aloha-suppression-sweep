@@ -1,77 +1,9 @@
-// api/dashboard.js
-// Reads suppression incidents from Upstash Redis and returns them in the
-// format the frontend expects: { cases: [...], total, generatedAt }
-//
-// Each case has: id, title, org, platform, sector, heat, date,
-//               summary, evidence, source, sourceUrl, tags
-
-function parseRedisVal(val) {
-  if (val === null || val === undefined) return null;
-  if (typeof val === 'object') return val;
-  try { return JSON.parse(val); } catch { return val; }
-}
-
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Content-Type', 'application/json');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-
-  const redis = {
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN,
-  };
-
-  try {
-    // ── READ INDEX ─────────────────────────────────────────────────────────
-    const indexRes = await fetch(
-      `${redis.url}/get/${encodeURIComponent('aloha:suppression:index')}`,
-      { headers: { Authorization: `Bearer ${redis.token}` } }
-    );
-    const indexData = await indexRes.json();
-    const indexKeys = parseRedisVal(indexData.result);
-
-    if (!indexKeys || !Array.isArray(indexKeys) || indexKeys.length === 0) {
-      return res.status(200).json({
-        cases: [],
-        total: 0,
-        message: 'No incidents indexed yet. Visit /api/sweep to populate.',
-        generatedAt: new Date().toISOString(),
-      });
-    }
-
-    // ── FETCH ALL INCIDENTS ─────────────────────────────────────────────────
-    const cases = [];
-    for (const key of indexKeys) {
-      try {
-        const r = await fetch(
-          `${redis.url}/get/${encodeURIComponent(key)}`,
-          { headers: { Authorization: `Bearer ${redis.token}` } }
-        );
-        const d = await r.json();
-        const incident = parseRedisVal(d.result);
-        if (incident && incident.title) {
-          cases.push(incident);
-        }
-      } catch (e) {
-        console.error(`Error fetching ${key}:`, e);
-      }
-    }
-
-    // Sort: verified incidents (inc_) first, then live (exa_), newest to oldest
-    cases.sort((a, b) => {
-      const aVerified = a.id?.startsWith('inc_') ? 0 : 1;
-      const bVerified = b.id?.startsWith('inc_') ? 0 : 1;
-      if (aVerified !== bVerified) return aVerified - bVerified;
-      return new Date(b.date || 0) - new Date(a.date || 0);
-    });
-
-    return res.status(200).json({
-      cases,
-      total: cases.length,
-      generatedAt: new Date().toISOString(),
-    });
-  } catch (e) {
-    console.error('Dashboard error:', e);
-    return res.status(500).json({ ok: false, error: e.message });
-  }
-}
+export const config={runtime:"edge"};
+const records=[
+{id:"ob-ayahuasca",title:"Ayahuasca discussion removed, then ordered restored",platform:"Instagram",recordType:"Oversight decision",status:"confirmed-error",date:"2021-12-09",claim:"Meta removed a post discussing traditional ayahuasca use; the Oversight Board found it did not violate the rules as articulated at the time and directed restoration.",establishes:"A documented erroneous removal in this specific case.",boundary:"It does not establish a platform-wide motive or quantify prevalence.",source:"Meta Oversight Board",sourceUrl:"https://www.oversightboard.com/news/1780492362340442-oversight-board-overturns-meta-s-decision-case-2021-013-ig-ua/",verifiedOn:"2026-08-16"},
+{id:"ob-ketamine",title:"Ketamine branded-content enforcement found inconsistent",platform:"Instagram",recordType:"Oversight decision",status:"official-record",date:"2023-08-17",claim:"The Oversight Board identified inconsistent application of Meta policies to a paid post promoting ketamine treatment.",establishes:"A documented policy-enforcement inconsistency in the reviewed case.",boundary:"The decision concerns branded content and restricted-goods rules; it is not a general endorsement of ketamine marketing.",source:"Meta Oversight Board",sourceUrl:"https://www.oversightboard.com/decision/ig-tom6ixvh-22/",verifiedOn:"2026-08-16"},
+{id:"congress-drugads",title:"Bipartisan lawmakers questioned illicit-drug ads on Meta",platform:"Meta",recordType:"Government record",status:"official-record",date:"2024-08-15",claim:"Nineteen U.S. House members asked Meta to explain how illicit-drug advertisements appeared on Facebook and Instagram.",establishes:"Official congressional scrutiny of Meta ad enforcement.",boundary:"The letter concerns illicit sales; it does not itself prove collateral suppression of lawful educators.",source:"Office of Rep. Tim Walberg",sourceUrl:"https://walberg.house.gov/media/press-releases/walberg-bilirakis-castor-and-trahan-led-bipartisan-letter-calls-meta-crack-down",verifiedOn:"2026-08-16"},
+{id:"meta-spam",title:"Meta describes reach reductions for spam and unoriginal content",platform:"Facebook",recordType:"Platform policy",status:"official-policy",date:"2025-04-24",claim:"Meta states that accounts using spam tactics or repeatedly reusing content may receive reduced reach or lose monetization.",establishes:"Meta’s stated distribution policy and some disclosed enforcement categories.",boundary:"A reach decline requires account-level diagnostics; the policy does not explain every decline.",source:"Meta Newsroom",sourceUrl:"https://about.fb.com/news/2025/04/cracking-down-spammy-content-facebook/",verifiedOn:"2026-08-16"},
+{id:"pmp-wave",title:"Psychedelic organizations reported a May 2025 suspension wave",platform:"Instagram",recordType:"Reported incident",status:"reported",date:"2025-05-30",claim:"Plant Media Project and affected organizations reported multiple suspensions and vague notices during a concentrated period.",establishes:"A first-party/coalition report suitable for incident intake and corroboration.",boundary:"Counts, common cause, policy basis, and platform intent require independent records or Meta confirmation.",source:"Students for Sensible Drug Policy",sourceUrl:"https://ssdp.org/blog/stop-meta-censorship/",verifiedOn:"2026-08-16"}
+];
+export default function handler(req){if(req.method!=="GET")return new Response(JSON.stringify({error:"Method not allowed"}),{status:405,headers:{"content-type":"application/json","allow":"GET"}});return new Response(JSON.stringify({records,total:records.length,verifiedOn:"2026-08-16",methodology:"primary or first-party sources; claim boundaries preserved"}),{headers:{"content-type":"application/json","cache-control":"public, s-maxage=86400, stale-while-revalidate=604800"}})}
