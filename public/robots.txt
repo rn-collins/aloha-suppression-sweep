@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aloha-suppression-sweep.vercel.app/sitemap.xml

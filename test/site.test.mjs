@@ -1,0 +1,4 @@
+import test from "node:test";import assert from "node:assert/strict";import handler from "../api/dashboard.js";import {readFile} from "node:fs/promises";
+test("dashboard GET is bounded and current",async()=>{const r=handler(new Request("https://example.test/api/dashboard"));assert.equal(r.status,200);const d=await r.json();assert.equal(d.records.length,5);assert.equal(d.retrievedOn,"2026-08-19");assert.equal(d.records.find(x=>x.id==="ketamine-board").sourceUrl,"https://www.oversightboard.com/decision/ig-tom6ixvh/");assert.match(d.records.find(x=>x.id==="ssdp-coalition").boundary,/Does not independently verify/)});
+test("dashboard rejects writes",()=>assert.equal(handler(new Request("https://example.test/api/dashboard",{method:"POST"})).status,405));
+test("routing has no catch-all soft 404",async()=>{const c=JSON.parse(await readFile(new URL("../vercel.json",import.meta.url)));assert.equal(c.rewrites.some(x=>x.source==="/(.*)"||x.source==="/.*"),false)});
