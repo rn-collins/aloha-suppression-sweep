@@ -1,10 +1,168 @@
-const KEY="platform-evidence-lab-v1";let records=[];let state={};
-const $=s=>document.querySelector(s);const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function loadState(){try{const value=JSON.parse(localStorage.getItem(KEY)||"{}");return value&&typeof value==="object"?value:{}}catch{return {}}}
-function saveState(){localStorage.setItem(KEY,JSON.stringify(state))}
-function safeUrl(value){try{const u=new URL(value);return u.protocol==="https:"?u.href:"#"}catch{return "#"}}
-function options(id,values){const node=$(id);for(const value of [...new Set(values)].sort()){const o=document.createElement("option");o.value=o.textContent=value;node.append(o)}}
-function filtered(){const q=$("#search").value.trim().toLowerCase(),p=$("#platform").value,t=$("#type").value,a=$("#assessment").value;return records.filter(r=>[r.title,r.claim,r.type].join(" ").toLowerCase().includes(q)&&(!p||r.platform===p)&&(!t||r.type===t)&&(!a||(state[r.id]?.assessment||"Unreviewed")===a))}
-function render(){const rows=filtered();$("#summary").textContent=`Showing ${rows.length} of ${records.length}; ${Object.values(state).filter(x=>x.saved).length} saved.`;$("#cards").innerHTML=rows.length?rows.map(r=>{const s=state[r.id]||{},assessment=s.assessment||"Unreviewed";return `<article class="card" data-id="${esc(r.id)}"><div class="tags"><span class="tag">${esc(r.platform)}</span><span class="tag">${esc(r.type)}</span><span class="tag">${esc(r.status)}</span></div><h3 id="title-${esc(r.id)}">${esc(r.title)}</h3><p class="meta"><time datetime="${esc(r.date)}">${esc(r.date)}</time> · source checked <time datetime="${esc(r.verifiedOn)}">${esc(r.verifiedOn)}</time></p><p>${esc(r.claim)}</p><p><strong>Establishes:</strong> ${esc(r.establishes)}</p><p class="boundary"><strong>Boundary:</strong> ${esc(r.boundary)}</p><p>${r.sourceUrl?`<a href="${esc(safeUrl(r.sourceUrl))}" target="_blank" rel="noopener">Open source <span class="sr-only">for ${esc(r.title)} (opens in new tab)</span></a>`:`<strong>Source unavailable.</strong> ${esc(r.sourceNote||"The cited source could not be retrieved.")}`}</p><div class="actions"><label for="assessment-${esc(r.id)}">Assessment for ${esc(r.title)}<select id="assessment-${esc(r.id)}" data-action="assessment"><option${assessment==="Unreviewed"?" selected":""}>Unreviewed</option><option${assessment==="Priority follow-up"?" selected":""}>Priority follow-up</option><option${assessment==="Context only"?" selected":""}>Context only</option></select></label><button type="button" data-action="save" aria-pressed="${s.saved?"true":"false"}" class="${s.saved?"saved":""}">${s.saved?"Saved":"Save"} ${esc(r.title)}</button></div></article>`}).join(""):"<p>No records match these filters.</p>"}
-async function load(){$("#error").hidden=true;$("#cards").hidden=false;try{const res=await fetch("/api/dashboard",{headers:{accept:"application/json"}});if(!res.ok)throw Error();const data=await res.json();records=data.records;state=loadState();options("#platform",records.map(r=>r.platform));options("#type",records.map(r=>r.type));render()}catch{$("#cards").hidden=true;$("#error").hidden=false;$("#summary").textContent="Evidence unavailable."}}
-document.addEventListener("change",e=>{if(e.target.matches("#search,#platform,#type,#assessment"))render();if(e.target.dataset.action==="assessment"){const id=e.target.closest(".card").dataset.id;state[id]={...state[id],assessment:e.target.value};saveState();render()}});document.addEventListener("input",e=>{if(e.target.id==="search")render()});$("#cards").addEventListener("click",e=>{const b=e.target.closest('[data-action="save"]');if(!b)return;const id=b.closest(".card").dataset.id;state[id]={...state[id],saved:!state[id]?.saved};saveState();render();$("#summary").textContent=`${state[id].saved?"Saved":"Unsaved"} ${records.find(r=>r.id===id).title}.`});$("#reset").addEventListener("click",()=>{state={};localStorage.removeItem(KEY);render();$("#summary").textContent="Local review reset."});$("#export").addEventListener("click",()=>{const payload={exportedAt:new Date().toISOString(),assessmentDefinition:"Priority follow-up is browser-local operational triage, not a verified fact or legal conclusion.",records:records.map(r=>({...r,review:state[r.id]||{assessment:"Unreviewed",saved:false}}))};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));a.download="platform-moderation-evidence.json";a.click();URL.revokeObjectURL(a.href);$("#summary").textContent="JSON export prepared."});$("#retry").addEventListener("click",load);load();
+// Progressive enhancement only. The register is rendered into index.html by
+// scripts/render.mjs, so everything below is optional: filtering, ordering,
+// shareable views, browser-local review state and export. With JavaScript off
+// the page still shows every record in full, in date order, with working links.
+
+const KEY = "platform-evidence-lab-v1";
+const $ = (s) => document.querySelector(s);
+const cardsRoot = $("#cards");
+if (cardsRoot) {
+  const cards = Array.prototype.slice.call(cardsRoot.querySelectorAll(".card"));
+  const controls = { q: $("#search"), platform: $("#platform"), type: $("#type"), assessment: $("#assessment"), sort: $("#sort") };
+  const summary = $("#summary");
+  const empty = $("#empty");
+  let state = loadState();
+
+  function loadState() {
+    try {
+      const value = JSON.parse(localStorage.getItem(KEY) || "{}");
+      return value && typeof value === "object" ? value : {};
+    } catch { return {}; }
+  }
+  function saveState() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* private mode; review stays in memory */ }
+  }
+
+  function assessmentOf(id) { return (state[id] && state[id].assessment) || "Unreviewed"; }
+
+  function paintCard(card) {
+    const id = card.dataset.id;
+    const select = card.querySelector('[data-action="assessment"]');
+    if (select) select.value = assessmentOf(id);
+    const button = card.querySelector('[data-action="save"]');
+    if (button) {
+      const saved = !!(state[id] && state[id].saved);
+      button.setAttribute("aria-pressed", saved ? "true" : "false");
+      button.classList.toggle("saved", saved);
+      const label = button.querySelector("[data-label]");
+      if (label) label.textContent = saved ? "Saved" : "Save";
+    }
+  }
+
+  function readUrl() {
+    const params = new URLSearchParams(location.search);
+    Object.keys(controls).forEach((key) => {
+      const name = key === "q" ? "q" : key;
+      const value = params.get(name);
+      if (value !== null && controls[key]) controls[key].value = value;
+    });
+  }
+
+  function writeUrl() {
+    const params = new URLSearchParams();
+    Object.keys(controls).forEach((key) => {
+      const node = controls[key];
+      if (!node || !node.value) return;
+      if (key === "sort" && node.value === "date-desc") return;
+      params.set(key === "q" ? "q" : key, node.value);
+    });
+    const query = params.toString();
+    history.replaceState(null, "", (query ? "?" + query : location.pathname) + location.hash);
+  }
+
+  function apply() {
+    const q = controls.q.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((card) => {
+      const ok = (!q || card.dataset.text.indexOf(q) !== -1)
+        && (!controls.platform.value || card.dataset.platform === controls.platform.value)
+        && (!controls.type.value || card.dataset.type === controls.type.value)
+        && (!controls.assessment.value || assessmentOf(card.dataset.id) === controls.assessment.value);
+      card.hidden = !ok;
+      if (ok) shown += 1;
+    });
+    const order = controls.sort.value;
+    cards.slice().sort((a, b) => {
+      if (order === "date-asc") return a.dataset.date.localeCompare(b.dataset.date);
+      if (order === "title") return a.dataset.title.localeCompare(b.dataset.title);
+      if (order === "type") return a.dataset.type.localeCompare(b.dataset.type) || b.dataset.date.localeCompare(a.dataset.date);
+      return b.dataset.date.localeCompare(a.dataset.date);
+    }).forEach((card) => cardsRoot.appendChild(card));
+    const saved = Object.values(state).filter((entry) => entry && entry.saved).length;
+    summary.textContent = shown + " of " + cards.length + " records shown; " + saved + " saved locally.";
+    empty.hidden = shown !== 0;
+    writeUrl();
+  }
+
+  $("#filters").addEventListener("submit", (event) => event.preventDefault());
+  controls.q.addEventListener("input", apply);
+  ["platform", "type", "assessment", "sort"].forEach((key) => controls[key].addEventListener("change", apply));
+
+  $("#clear").addEventListener("click", () => {
+    controls.q.value = ""; controls.platform.value = ""; controls.type.value = ""; controls.assessment.value = ""; controls.sort.value = "date-desc";
+    apply();
+    summary.textContent = "Filters cleared. " + cards.length + " of " + cards.length + " records shown.";
+  });
+
+  const share = $("#share");
+  if (navigator.clipboard && share) {
+    share.hidden = false;
+    share.addEventListener("click", () => {
+      navigator.clipboard.writeText(location.href).then(() => {
+        summary.textContent = "Link to this view copied to the clipboard.";
+      }, () => {
+        summary.textContent = "The browser refused clipboard access; copy the address bar instead.";
+      });
+    });
+  }
+
+  cardsRoot.addEventListener("change", (event) => {
+    if (event.target.dataset.action !== "assessment") return;
+    const card = event.target.closest(".card");
+    const id = card.dataset.id;
+    state[id] = Object.assign({}, state[id], { assessment: event.target.value });
+    saveState();
+    apply();
+  });
+
+  cardsRoot.addEventListener("click", (event) => {
+    const button = event.target.closest('[data-action="save"]');
+    if (!button) return;
+    const card = button.closest(".card");
+    const id = card.dataset.id;
+    state[id] = Object.assign({}, state[id], { saved: !(state[id] && state[id].saved) });
+    saveState();
+    paintCard(card);
+    apply();
+    summary.textContent = (state[id].saved ? "Saved " : "Unsaved ") + card.dataset.title + ".";
+  });
+
+  $("#reset").addEventListener("click", () => {
+    state = {};
+    try { localStorage.removeItem(KEY); } catch { /* nothing stored */ }
+    cards.forEach(paintCard);
+    apply();
+    summary.textContent = "Local review reset.";
+  });
+
+  $("#export").addEventListener("click", async () => {
+    let payload;
+    try {
+      const response = await fetch("/api/dashboard", { headers: { accept: "application/json" } });
+      if (!response.ok) throw new Error("unavailable");
+      payload = await response.json();
+    } catch {
+      summary.textContent = "Export unavailable: the register endpoint did not respond.";
+      return;
+    }
+    payload.exportedAt = new Date().toISOString();
+    payload.records = payload.records.map((record) => Object.assign({}, record, {
+      review: { assessment: assessmentOf(record.id), saved: !!(state[record.id] && state[record.id].saved) },
+    }));
+    const anchor = document.createElement("a");
+    anchor.href = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }));
+    anchor.download = "platform-moderation-evidence.json";
+    anchor.click();
+    URL.revokeObjectURL(anchor.href);
+    summary.textContent = "JSON export prepared, with your local review attached to each record.";
+  });
+
+  cards.forEach(paintCard);
+  readUrl();
+  apply();
+  if (location.hash) {
+    const target = document.querySelector(location.hash);
+    if (target && target.hidden) $("#clear").click();
+    if (target) target.scrollIntoView();
+  }
+}

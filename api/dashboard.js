@@ -1,13 +1,27 @@
-const records = [
-  {id:"ayahuasca-board",date:"2021-10-05",title:"Ayahuasca post removal overturned",platform:"Instagram",type:"Oversight Board decision",status:"Decision overturned",claim:"Meta’s Oversight Board overturned Instagram’s removal of a post discussing ayahuasca and required restoration.",establishes:"A documented reversal in this individual case.",boundary:"Does not establish a platform-wide pattern, motive, or legal violation.",sourceUrl:"https://www.oversightboard.com/news/1780492362340442-oversight-board-overturns-meta-s-decision-case-2021-013-ig-ua/",verifiedOn:"2026-08-19"},
-  {id:"ketamine-board",date:"2023-08-17",title:"Ketamine paid-partnership decision overturned",platform:"Instagram",type:"Oversight Board decision",status:"Decision overturned",claim:"The Board overturned Meta’s decision to leave up a paid-partnership post promoting ketamine treatment, required removal, and found violations of Branded Content and Restricted Goods and Services policies. It described enforcement as potentially inconsistent.",establishes:"A documented policy-enforcement reversal and case-specific inconsistency concern.",boundary:"Does not quantify broader enforcement or establish discriminatory intent.",sourceUrl:"https://www.oversightboard.com/decision/ig-tom6ixvh/",verifiedOn:"2026-08-19"},
-  {id:"congress-letter",date:"2024-03-15",title:"Reported congressional letter on illicit-drug advertising — source not verifiable",platform:"Meta",type:"Unverified citation",status:"Source not verifiable",claim:"This record previously stated that a bipartisan group of 19 members asked Meta to explain reports of illicit-drug advertisements and its related enforcement practices.",establishes:"Nothing. On 29 August 2026 the cited congressional press release returned HTTP 404 and no archived copy could be located, so the source behind this record cannot be produced.",boundary:"Retained so the failed citation stays visible rather than disappearing. Do not treat this entry as evidence that the letter exists, that it had 19 signatories, or that the underlying allegations occurred. A request for information would not be an adjudication in any case.",sourceUrl:null,sourceNote:"Cited URL walberg.house.gov/media/press-releases/walberg-castor-lead-bipartisan-letter-meta-over-illicit-drug-advertisements returned HTTP 404 and has no Wayback Machine snapshot.",verifiedOn:"2026-08-29"},
-  {id:"meta-spam",date:"2025-04-24",title:"Meta announced reach penalties for spam tactics",platform:"Facebook",type:"Platform statement",status:"Policy announcement",claim:"Meta said accounts using tactics such as unrelated captions, excessive hashtags, or coordinated spam networks may receive less reach and lose monetization eligibility.",establishes:"The platform’s disclosed enforcement approach for specified spam behaviors.",boundary:"Does not document drug-policy suppression or prove how the policy was applied in any individual case.",sourceUrl:"https://about.fb.com/news/2025/04/cracking-down-spammy-content-facebook/",verifiedOn:"2026-08-19"},
-  {id:"ssdp-coalition",date:"2025-06-16",title:"Coalition alleged disproportionate moderation of drug-policy content",platform:"Meta",type:"Coalition allegation",status:"Advocacy statement",claim:"SSDP and cosigners alleged that cannabis, psychedelic, and harm-reduction accounts experienced removals, deplatforming, or reduced visibility and requested clearer policies and appeals.",establishes:"A coalition advocacy statement and its allegations.",boundary:"Does not independently verify any incident, quantify prevalence, identify a common cause, or establish discriminatory intent.",sourceUrl:"https://ssdp.org/blog/stop-meta-censorship/",verifiedOn:"2026-08-19"}
-];
+import { RECORDS, CLASSES, READING_RULES, RETRIEVED_ON, NEXT_REVIEW } from "../lib/records.js";
 
 export const config = { runtime: "edge" };
+
 export default function handler(request) {
-  if (request.method !== "GET") return new Response(JSON.stringify({error:"Method not allowed"}),{status:405,headers:{"content-type":"application/json; charset=utf-8","allow":"GET"}});
-  return new Response(JSON.stringify({schemaVersion:1,retrievedOn:"2026-08-29",assessmentDefinition:"Priority follow-up is browser-local operational triage, not a verified fact or legal conclusion.",records}),{headers:{"content-type":"application/json; charset=utf-8","cache-control":"public, max-age=0, s-maxage=3600, stale-while-revalidate=86400","x-content-type-options":"nosniff"}});
+  if (request.method !== "GET") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { "content-type": "application/json; charset=utf-8", allow: "GET" },
+    });
+  }
+  return new Response(JSON.stringify({
+    schemaVersion: 2,
+    retrievedOn: RETRIEVED_ON,
+    nextReview: NEXT_REVIEW,
+    assessmentDefinition: "Priority follow-up is browser-local operational triage, not a verified fact or legal conclusion.",
+    evidenceClasses: CLASSES,
+    readingRules: READING_RULES,
+    records: RECORDS,
+  }), {
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+      "x-content-type-options": "nosniff",
+    },
+  });
 }
