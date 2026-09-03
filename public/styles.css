@@ -1,20 +1,40 @@
+/* Platform Moderation Evidence Lab — design language: "docket".
+   Every record answers the same seven headed questions in the same order, which
+   makes this a schedule of exhibits rather than a feed of cards. The fields are
+   therefore set as a schedule: the field name in the left margin in Source Code
+   Pro, the finding in the column beside it, ruled row by row.
+   Libre Franklin, a Franklin Gothic revival, carries the prose. Source Code Pro
+   carries every catalogue key — record dates, source classes, counts, clause
+   numbers, permalinks — and nothing else.
+   The page is monochrome on purpose. The only hue on it is the flag brown that
+   marks the inference each record invites and why it fails, because that is the
+   one thing here that is a warning rather than a fact.
+   Fonts are served from /fonts on this origin; the CSP is style-src 'self'. */
+
+@font-face{font-family:"Libre Franklin";src:url(/fonts/librefranklin.woff2) format("woff2");
+  font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(/fonts/sourcecodepro.woff2) format("woff2");
+  font-weight:200 900;font-style:normal;font-display:swap}
+
 :root{
   color-scheme:light;
-  --ink:#17211d;
-  --muted:#4C5A54;
-  --paper:#f6f3eb;
-  --card:#fff;
-  --line:#c4cec8;
-  --line-soft:#dfe6e1;
-  --accent:#0d684f;
-  --accent-deep:#07523d;
-  --accent2:#e4f2ec;
-  --flag:#7a3e00;
-  --flag-soft:#f6ece0;
-  --focus:#a25400;
+  --ink:#16191c;         /* 15.60:1 on --paper, 17.04:1 on --card */
+  --muted:#4a4f54;       /*  7.32:1 on --paper,  7.99:1 on --card */
+  --paper:#f1f1ef;       /* document grey, off the estate cream */
+  --card:#fbfbfa;
+  --line:#c2c4c2;
+  --line-soft:#dcdedb;
+  --accent:#25333f;      /* 11.43:1 on --paper; white on it 12.93:1 */
+  --accent-deep:#161f27; /* 14.74:1 on --paper */
+  --accent2:#e7e8e5;
+  --flag:#7a3e00;        /*  8.06:1 on --card, 7.10:1 on --flag-soft */
+  --flag-soft:#f3ecdf;
+  --focus:#a25400;       /*  4.88:1 on --paper */
+  --sans:"Libre Franklin",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Source Code Pro",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.62 var(--sans);-webkit-text-size-adjust:100%}
 a{color:var(--accent-deep);text-underline-offset:.2em}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .skip{position:absolute;left:-999px;top:.5rem;background:#fff;padding:.75rem;z-index:10}
@@ -22,81 +42,115 @@ a{color:var(--accent-deep);text-underline-offset:.2em}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 header,main,footer{width:min(1120px,calc(100% - 2rem));margin:auto}
-header{padding:4rem 0 2rem;border-bottom:1px solid var(--line)}
-header h1{font:clamp(2.1rem,6.5vw,4.6rem)/1 Georgia,"Times New Roman",serif;max-width:900px;margin:.3rem 0 1rem}
-.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-weight:700;font-size:.82rem;color:var(--accent-deep);margin:0}
-.deck{font:1.15rem/1.55 Georgia,"Times New Roman",serif;max-width:62ch;margin:0 0 1.4rem}
-nav{display:flex;gap:1rem;flex-wrap:wrap}
+/* a register has a masthead, not a headline */
+header{padding:3.4rem 0 1.6rem;border-bottom:3px solid var(--ink)}
+header h1{font:700 clamp(1.85rem,4vw,2.85rem)/1.08 var(--sans);letter-spacing:-.02em;
+  max-width:22ch;margin:.55rem 0 .9rem}
+.eyebrow{font:500 .72rem/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;
+  color:var(--muted);margin:0 0 .5rem;padding-bottom:.5rem;border-bottom:1px solid var(--line)}
+.deck{font:400 1.05rem/1.6 var(--sans);color:var(--muted);max-width:66ch;margin:0 0 1.3rem}
+nav{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.95rem}
 main{padding:2.25rem 0 1rem}
 
-h2{font:1.55rem/1.25 Georgia,"Times New Roman",serif;margin:0 0 .6rem}
-h3{font:1.2rem/1.3 Georgia,"Times New Roman",serif;margin:0 0 .35rem}
+h2{font:600 1.28rem/1.28 var(--sans);letter-spacing:-.008em;margin:0 0 .6rem}
+h3{font:600 1.06rem/1.3 var(--sans);letter-spacing:-.004em;margin:0 0 .35rem}
 
-.rules,.classes,.controls,.card,.notice{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem}
+.rules,.classes,.controls,.card,.notice{background:var(--card);border:1px solid var(--line);
+  border-top:2px solid var(--ink);border-radius:0;padding:1.3rem 1.4rem}
 .rules{margin-bottom:1.25rem}
-.rules-lede{max-width:66ch;margin:0 0 1.1rem}
-.rules-list{counter-reset:rule;list-style:none;margin:0;padding:0;display:grid;gap:1rem}
-.rules-list li{counter-increment:rule;padding-left:2.6rem;position:relative;max-width:72ch}
-.rules-list li::before{content:counter(rule);position:absolute;left:0;top:.05rem;width:1.85rem;height:1.85rem;border-radius:50%;background:var(--accent2);color:var(--accent-deep);font:700 .95rem/1.85rem system-ui,sans-serif;text-align:center}
-.rules-list p{margin:0}
+.rules-lede{max-width:68ch;margin:0 0 1.2rem}
+/* numbered clauses, the way a statute numbers them */
+.rules-list{counter-reset:rule;list-style:none;margin:0;padding:0;display:grid;gap:0}
+.rules-list li{counter-increment:rule;padding:.95rem 0 .95rem 2.6rem;position:relative;max-width:74ch;
+  border-top:1px solid var(--line-soft)}
+.rules-list li:first-child{border-top:0;padding-top:0}
+.rules-list li::before{content:counter(rule,decimal-leading-zero);position:absolute;left:0;top:.95rem;
+  font:500 .78rem/1.62 var(--mono);letter-spacing:.05em;color:var(--muted)}
+.rules-list li:first-child::before{top:0}
+.rules-list p{margin:.15rem 0 0}
 
 .classes{margin-bottom:1.25rem}
-.classes>p{max-width:66ch}
-.table-wrap{position:relative;overflow-x:auto;margin-top:1rem;border:1px solid var(--line-soft);border-radius:10px}
+.classes>p{max-width:68ch}
+.table-wrap{position:relative;overflow-x:auto;margin-top:1.1rem;border:0;border-radius:0}
 table{border-collapse:collapse;width:100%;min-width:680px;font-size:.92rem}
-th,td{text-align:left;vertical-align:top;padding:.7rem .8rem;border-bottom:1px solid var(--line-soft)}
-thead th{background:var(--accent2);color:var(--accent-deep);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
-tbody th{font-weight:700;white-space:nowrap}
+th,td{text-align:left;vertical-align:top;padding:.7rem .8rem .7rem 0;border-bottom:1px solid var(--line-soft)}
+th:last-child,td:last-child{padding-right:0}
+thead th{background:none;border-bottom:2px solid var(--ink);color:var(--ink);
+  font:500 .72rem/1.5 var(--mono);text-transform:uppercase;letter-spacing:.07em}
+tbody th{font-weight:600;white-space:nowrap}
 tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
 
 .controls{margin-bottom:1.75rem}
 .grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:1rem;margin-top:.9rem}
-label{display:grid;gap:.35rem;font-weight:700;font-size:.92rem;min-width:0}
-input,select,button{font:inherit;border:1px solid #75847d;border-radius:8px;padding:.7rem;background:#fff;color:var(--ink);max-width:100%;min-width:0}
-button{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700;cursor:pointer}
+label{display:grid;gap:.34rem;font:600 .85rem/1.45 var(--sans);color:var(--ink);min-width:0}
+/* filter labels name a column of the register, so they are set as column heads;
+   the per-record assessment label is a full sentence and stays sentence case */
+.controls label{font:600 .74rem/1.4 var(--sans);text-transform:uppercase;letter-spacing:.07em;
+  color:var(--muted)}
+input,select,button{font:inherit;font-size:.95rem;font-weight:400;text-transform:none;letter-spacing:0;
+  border:1px solid #6c7278;border-radius:0;padding:.65rem;background:#fff;color:var(--ink);
+  max-width:100%;min-width:0}
+::placeholder{color:var(--muted);opacity:1}
+button{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600;cursor:pointer}
 button:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
-.secondary{background:#fff;color:var(--accent-deep)}
+.secondary{background:var(--card);color:var(--accent-deep);border-color:#6c7278}
 .secondary:hover{background:var(--accent2);color:var(--accent-deep)}
-.toolbar{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1rem}
-.toolbar p{margin-right:auto;margin-block:0;font-weight:600}
+.toolbar{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1.1rem;
+  padding-top:1rem;border-top:1px solid var(--line-soft)}
+.toolbar p{margin-right:auto;margin-block:0;font:500 .82rem/1.5 var(--mono);letter-spacing:.03em;color:var(--ink)}
 
-.cards{display:grid;gap:1.1rem}
+/* ---- the register ---- */
+.cards{display:grid;gap:1.5rem}
 .card{scroll-margin-top:1rem}
-.card:target{border-color:var(--accent);box-shadow:0 0 0 3px rgba(13,104,79,.16)}
+.card:target{border-color:var(--ink);box-shadow:inset 5px 0 0 var(--ink)}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem}
-.tags{display:flex;gap:.5rem;flex-wrap:wrap}
-.tag{background:var(--accent2);border-radius:999px;padding:.2rem .7rem;font-size:.85rem;color:#0a4c3a}
-.tag--type{background:#e8e3d5;color:#5c4a12}
-.permalink{text-decoration:none;color:#5c6a63;font-weight:700;padding:.1rem .45rem;border-radius:6px;line-height:1.4}
+.tags{display:flex;gap:.4rem;flex-wrap:wrap}
+/* classification stamps, not pills */
+.tag{background:none;border:1px solid var(--line);border-radius:0;padding:.2rem .5rem;
+  font:500 .68rem/1.5 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tag--type{background:var(--accent);border-color:var(--accent);color:#fff}
+.permalink{text-decoration:none;color:var(--muted);font:500 .95rem/1.4 var(--mono);
+  padding:.1rem .4rem;border-radius:0}
 .permalink:hover{background:var(--accent2);color:var(--accent-deep)}
-.card h3{font-size:1.5rem;margin:.55rem 0 .3rem}
-.meta{color:var(--muted);font-size:.9rem;margin:0 0 .8rem}
+.card h3{font:600 1.3rem/1.3 var(--sans);letter-spacing:-.01em;margin:.7rem 0 .35rem}
+.meta{color:var(--muted);font:400 .78rem/1.55 var(--mono);margin:0 0 .85rem}
 .claim{max-width:74ch;margin:0 0 .2rem}
-.fields{display:grid;gap:.85rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line-soft)}
-.field h4{margin:0 0 .2rem;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+/* the schedule: field name in the margin, finding in the column beside it */
+.fields{display:grid;gap:0;margin-top:1.2rem;border-top:2px solid var(--ink)}
+.field{display:grid;grid-template-columns:13rem 1fr;gap:0 1.6rem;padding:.9rem 0;
+  border-bottom:1px solid var(--line-soft)}
+.field h4{margin:0;font:500 .7rem/1.62 var(--mono);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-weight:500}
 .field p{margin:0;max-width:76ch}
-.field.boundary p,.field.misuse p{border-left:3px solid var(--line);padding-left:.75rem}
+.field.boundary p,.field.misuse p{border-left:2px solid var(--line);padding-left:.8rem}
 .field.misuse p{border-left-color:var(--flag)}
-.source{margin:1rem 0 0;padding-top:.9rem;border-top:1px solid var(--line-soft)}
-.actions{display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line-soft);margin-top:.9rem;padding-top:1rem}
-.actions label{flex:1;min-width:220px}
+.source{margin:1.1rem 0 0;font-weight:500}
+.actions{display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line-soft);
+  margin-top:1.1rem;padding-top:1rem}
+.actions label{flex:1;min-width:220px;font:500 .82rem/1.45 var(--sans);color:var(--muted)}
 .saved{background:var(--flag);border-color:var(--flag)}
 .saved:hover{background:#5f3000;border-color:#5f3000}
 .notice{margin-top:1rem}
 
-footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--muted);margin-top:2.5rem}
+footer{border-top:2px solid var(--ink);padding:2rem 0 3rem;color:var(--muted);margin-top:2.5rem;font-size:.92rem}
 footer p{margin:.3rem 0}
 
 .prose{max-width:74ch}
 .prose h2{margin-top:2.2rem}
 .prose h3{margin-top:1.5rem}
 .prose p{margin:0 0 .9rem}
-.prose code{background:var(--accent2);border-radius:4px;padding:.1rem .35rem;font-size:.9em}
-.source-list{list-style:none;margin:0;padding:0;display:grid;gap:1.1rem}
-.source-list li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.prose code{font-family:var(--mono);background:var(--accent2);border-radius:0;padding:.1rem .35rem;font-size:.88em}
+.source-list{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:2px solid var(--ink)}
+.source-list li{background:none;border:0;border-bottom:1px solid var(--line-soft);border-radius:0;
+  padding:1rem 0}
 .source-list p{margin:0 0 .3rem;overflow-wrap:anywhere}
 
 @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){
+  .field{grid-template-columns:1fr;gap:.25rem}
+  .field h4{margin-bottom:.1rem}
+}
 @media(max-width:640px){
   header{padding-top:2.5rem}
   .grid{grid-template-columns:1fr}
@@ -106,7 +160,7 @@ footer p{margin:.3rem 0}
   .actions select,.actions button{width:100%;max-width:100%}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-@media(forced-colors:active){button,.tag{border:1px solid ButtonText}}
+@media(forced-colors:active){button,.tag,.card{border:1px solid ButtonText}}
 @media print{
   .skip,.controls,.actions,nav,.permalink{display:none}
   body{background:#fff}
